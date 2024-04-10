@@ -55,11 +55,14 @@ bool View::addController(std::string dbFileName)
 	return false;
 }
 
-void View::printStartMenu()
+void View::printGreeting()
 {
 	std::cout << "Welcome to music salon app!\n";
 	std::cout << "Choose an option to start:\n";
+}
 
+void View::printStartMenu()
+{
 	for (auto it = this->_startMenuCommands.begin(); it != this->_startMenuCommands.end(); ++it)
 	{
 		std::cout << it->first << ":\t" << it->second->getDescription() << "\n";
@@ -69,13 +72,14 @@ void View::printStartMenu()
 	std::cout << "use 'q' command to quit from all commands\n";
 }
 
-void setUser(User* user)
+void View::setUser(User* user)
 {
 	this->_user = user;
 }
 
 void View::start()
 {
+	printGreeting();
 	printStartMenu();
 	std::string userCommand;
 	do

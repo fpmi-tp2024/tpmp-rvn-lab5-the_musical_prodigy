@@ -22,8 +22,8 @@ public:
 	~View();
 	const Controller& getController();
 	bool addController(std::string dbFileName);
+	void printGreeting();
 	void printStartMenu();
-	bool checkLoginIfAlreadyExist(std::string login);
 	void setUser(User* user);
 	void start();
 };

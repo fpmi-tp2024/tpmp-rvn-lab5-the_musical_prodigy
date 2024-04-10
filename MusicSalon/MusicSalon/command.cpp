@@ -91,7 +91,7 @@ void SignUpCommand::execute()
 		return;
 	}
 
-	while (!this->_view->checkLoginIfAlreadyExist(login))
+	while (!this->_controller->checkLoginIfAlreadyExist(login))
 	{
 		std::cout << "User with this login already exists, try another login or type q to quit:\n";
 		login = this->enterLogin();
@@ -152,4 +152,52 @@ SignInCommand::SignInCommand(View* view, Controller* controller): AuthorizationC
 SignInCommand::~SignInCommand()
 {
 
+}
+
+void SignInCommand::execute()
+{
+	std::cout << "Choose a role to sign in:\n";
+	std::cout << "0: customer\n";
+	std::cout << "1: admin\n";
+
+	std::string chosenUserRole;
+	std::cin >> chosenUserRole;
+
+	if (chosenUserRole == "q")
+	{
+		return;
+	}
+
+	while (chosenUserRole != "0" && chosenUserRole != "1")
+	{
+		std::cout << "Enter '0' or '1'\n";
+		std::cin >> chosenUserRole;
+
+		if (chosenUserRole == "q")
+		{
+			return;
+		}
+	}
+
+	std::string login = this->enterLogin();
+
+	if (login == "q")
+	{
+		return;
+	}
+
+	std::string password = this->enterPassword();
+
+	User* user = new User(stoi(chosenUserRole), login, password);
+
+	if (this->_controller->signIn(user))
+	{
+		std::cout << "You have signed in successfully!\n";
+		this->_view->setUser(user);
+	}
+
+	else
+	{
+		std::cout << "Incorrect login or password\n";
+	}
 }

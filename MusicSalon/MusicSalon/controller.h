@@ -18,5 +18,5 @@ public:
 	bool addModel(std::string dbFileName);
 	bool checkLoginIfAlreadyExist(std::string login);
 	bool signUp(User* user);
-	bool signIn();
+	bool signIn(User* user);
 };
