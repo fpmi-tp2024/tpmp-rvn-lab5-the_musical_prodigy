@@ -14,7 +14,7 @@ public:
     ~Model();
     bool addDatabase(std::string dbFileName);
     bool addNewUser(User* user);
-    bool hasUder(User* user);
+    bool hasUser(User* user);
     bool buyCD(int CDCode, int quantity);
     std::vector<CD*> availableCDsInfo();
     std::vector<CD*> bestSellingCDsInfo();
