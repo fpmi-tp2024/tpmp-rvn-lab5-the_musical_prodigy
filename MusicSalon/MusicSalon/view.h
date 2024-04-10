@@ -20,7 +20,11 @@ private:
 public:
 	View();
 	~View();
+	const Controller& getController();
 	bool addController(std::string dbFileName);
 	void printStartMenu();
+	bool checkLoginIfAlreadyExist(std::string login);
+	void setUser(User* user);
 	void start();
 };
+

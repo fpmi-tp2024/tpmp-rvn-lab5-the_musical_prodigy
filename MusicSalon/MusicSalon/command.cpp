@@ -4,8 +4,14 @@
 
 //Command
 
-Command::Command(Controller* controller)
+Command::Command()
 {
+
+}
+
+Command::Command(View* view, Controller* controller)
+{
+	this->_view = view;
 	this->_controller = controller;
 }
 
@@ -26,9 +32,8 @@ std::string Command::getDescription()
 
 //SignUpCommand
 
-SignUpCommand::SignUpCommand(Controller* controller)
+SignUpCommand::SignUpCommand(View* view, Controller* controller) : Command(view, controller)
 {
-	Command(controller);
 	setDescription("Sign up to music salon");
 }
 
@@ -51,18 +56,8 @@ std::string SignUpCommand::enterLogin()
 	return login;
 }
 
-void SignUpCommand::execute()
+std::string SignUpCommand::enterPassword()
 {
-	std::string login = enterLogin();
-
-	while (!this->_controller->checkLoginIfAlreadyExist(login))
-	{
-		std::cout << "User with this login already exists, try another login or type q to quit:\n";
-
-	}
-
-
-
 	std::cout << "Enter password:\n";
 	std::string password;
 	std::cin >> password;
@@ -72,27 +67,77 @@ void SignUpCommand::execute()
 		std::cin >> password;
 	}
 
+	return password;
+}
+
+void SignUpCommand::execute()
+{
+	std::string login = this->enterLogin();
+
+	if (login == "q")
+	{
+		return;
+	}
+
+	while (!this->_view->checkLoginIfAlreadyExist(login))
+	{
+		std::cout << "User with this login already exists, try another login or type q to quit:\n";
+		login = this->enterLogin();
+
+		if (login == "q")
+		{
+			return;
+		}
+	}
+
+	std::string password = this->enterPassword();
+	
+	if (password == "q")
+	{
+		return;
+	}
+
 	std::cout << "Confirm your password:\n";
-	std::string passwordToConfirm;
-	std::cin >> passwordToConfirm;
+	std::string passwordToConfirm = this->enterPassword();
+
+	if (passwordToConfirm == "q")
+	{
+		return;
+	}
+
 	while (password != passwordToConfirm)
 	{
 		std::cout << "Passwords are not equal, try to confirm again:\n";
-		std::cin >> passwordToConfirm;
+		passwordToConfirm = this->enterPassword();
+
+		if (passwordToConfirm == "q")
+		{
+			return;
+		}
 	}
 
+	User* user = new User(0, login, password); // 0
 
+	if (this->_controller->signUp(user))
+	{
+		std::cout << "You have signed up successfully!\n";
+		this->_view->setUser(user);
+	}
+
+	else
+	{
+		std::cout << "Sign up failed\n";
+	}
 }
 
 //SignInCommand
 
-SignInCommand::SignInCommand(Controller* controller)
+SignInCommand::SignInCommand(View* view, Controller* controller): Command(view, controller)
 {
-	Command(controller);
 	setDescription("Sign in to to music salon");
 }
 
-SignInCommand::SignInCommand()
+SignInCommand::~SignInCommand()
 {
 
 }

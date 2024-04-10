@@ -31,12 +31,15 @@ View::~View()
 	}
 }
 
+const Controller& View::getController()
+{
+	return *_controller;
+}
+
 void View::addStartMenuCommands()
 {
-	SignUpCommand* signUpCommand(this->_controller);
-	SignInCommand* signInCommand(this->_controller);
-	this->_startMenuCommands.insert(std::pair<std::string, Command*>("signUp", signUpCommand));
-	this->_startMenuCommands.insert(std::pair<std::string, Command*>("signIn", signInCommand));
+	this->_startMenuCommands["signUp"] = new SignUpCommand(this);
+	this->_startMenuCommands["signIn"] = new SignInCommand(this);
 }
 
 
@@ -61,6 +64,14 @@ void View::printStartMenu()
 	{
 		std::cout << it->first << ":\t" << it->second->getDescription() << "\n";
 	}
+
+	std::cout << "quit:\tquit\n";
+	std::cout << "use 'q' command to quit from all commands\n";
+}
+
+void setUser(User* user)
+{
+	this->_user = user;
 }
 
 void View::start()
@@ -71,7 +82,7 @@ void View::start()
 	{
 		std::cout << "Choose an appropriate command: \n";
 		std::cin >> userCommand;
-	} while (!(this->_startMenuCommands.contains(userCommand)));
+	} while (this->_startMenuCommands.find(userCommand) == this->_startMenuCommands.end());
 
 	if (this->_startMenuCommands.contains(userCommand))
 	{

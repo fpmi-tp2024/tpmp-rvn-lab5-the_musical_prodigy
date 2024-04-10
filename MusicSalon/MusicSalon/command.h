@@ -2,39 +2,42 @@
 
 #pragma once
 
-#include "controller.h"
+#include "view.h"
 #include <iostream>
 #include <string>
 
 class Command
 {
-private:
+protected:
+	View* _view;
 	Controller* _controller;
 	std::string _description;
 public:
-	Command(Controller* controller);
+	Command();
+	Command(View* view, Controller* controller);
 	~Command();
 	virtual void execute() = 0;
-	virtual void setDescription(std::string description);
-	virtual std::string getDescription();
+	void setDescription(std::string description);
+	std::string getDescription();
 };
 
 class SignUpCommand : public Command
 {
 private:
 	std::string enterLogin();
+	std::string enterPassword();
 public:
-	SignUpCommand(Controller* controller);
+	SignUpCommand(View* view, Controller* controller);
 	~SignUpCommand();
-	virtual void execute();
+    void execute() override;
 };
 
 class SignInCommand : public Command
 {
 public:
-	SignInCommand(Controller* controller);
+	SignInCommand(View* view, Controller* controller);
 	SignInCommand();
-	virtual void execute();
+	void execute() override;
 };
 
 

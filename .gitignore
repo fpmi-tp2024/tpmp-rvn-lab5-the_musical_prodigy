@@ -1,0 +1,7 @@
+MusicSalon/x64/
+MusicSalon/.vs/
+MusicSalon/MusicSalon/x64/
+*.sln
+*.user
+*.filters
+*.vcxproj
