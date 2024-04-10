@@ -30,19 +30,19 @@ std::string Command::getDescription()
 	return this->_description;
 }
 
-//SignUpCommand
+//AuthorizationCommand
 
-SignUpCommand::SignUpCommand(View* view, Controller* controller) : Command(view, controller)
-{
-	setDescription("Sign up to music salon");
-}
-
-SignUpCommand::~SignUpCommand()
+AuthorizationCommand::AuthorizationCommand(View* view, Controller* controller) : Command(view, controller)
 {
 
 }
 
-std::string SignUpCommand::enterLogin()
+AuthorizationCommand::~AuthorizationCommand()
+{
+
+}
+
+std::string AuthorizationCommand::enterLogin()
 {
 	std::cout << "Enter login:\n";
 	std::string login;
@@ -56,7 +56,7 @@ std::string SignUpCommand::enterLogin()
 	return login;
 }
 
-std::string SignUpCommand::enterPassword()
+std::string AuthorizationCommand::enterPassword()
 {
 	std::cout << "Enter password:\n";
 	std::string password;
@@ -68,6 +68,18 @@ std::string SignUpCommand::enterPassword()
 	}
 
 	return password;
+}
+
+//SignUpCommand
+
+SignUpCommand::SignUpCommand(View* view, Controller* controller) : AuthorizationCommand(view, controller)
+{
+	setDescription("Sign up to music salon");
+}
+
+SignUpCommand::~SignUpCommand()
+{
+
 }
 
 void SignUpCommand::execute()
@@ -132,7 +144,7 @@ void SignUpCommand::execute()
 
 //SignInCommand
 
-SignInCommand::SignInCommand(View* view, Controller* controller): Command(view, controller)
+SignInCommand::SignInCommand(View* view, Controller* controller): AuthorizationCommand(view, controller)
 {
 	setDescription("Sign in to to music salon");
 }
