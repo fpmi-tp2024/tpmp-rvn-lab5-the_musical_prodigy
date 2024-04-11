@@ -2,19 +2,24 @@
 #include <iostream>
 #include <string>
 
+enum class UserRole{
+    ADMIN = 1,
+    USER
+};
+
 class User
 {
 private:
-    int userRoleId;
+    UserRole userRoleId;
     std::string username;
     std::string password;
 public:
     User();
     ~User();
-    int getUserRoleId() const;
+    UserRole getUserRoleId() const;
     std::string getUsername() const;
     std::string getPassword() const;
-    void setUserRoleId(int newRole);
+    void setUserRoleId(UserRole newRole);
     std::string setUsername(std::string& newUsername);
     std::string setPassword(std::string& newPassword);
 };

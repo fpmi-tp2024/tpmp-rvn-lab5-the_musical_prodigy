@@ -9,7 +9,7 @@ User::~User()
 }
 
 //Getters
-int User::getUserRoleId() const
+UserRole User::getUserRoleId() const
 {
     return this->userRoleId;
 }
@@ -23,7 +23,7 @@ std::string User::getPassword() const
 }
 
 //Setters
-void User::setUserRoleId(int newRole)
+void User::setUserRoleId(UserRole newRole)
 {
     this->userRoleId = newRole;
 }

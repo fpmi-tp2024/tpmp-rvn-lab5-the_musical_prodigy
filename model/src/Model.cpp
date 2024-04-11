@@ -36,9 +36,14 @@ bool Model::hasUserWithLogin(std::string login)
 {
 
 }
-bool Model::buyCD(int CDCode, int quantity){
+bool Model::canBuyCD(int CDCode, int quantity){
 
 }
+bool Model::buyCD(const std::vector<Operation>& operations)
+{
+
+}
+
 std::vector<CD> Model::availableCDsInfo(){
 
 }

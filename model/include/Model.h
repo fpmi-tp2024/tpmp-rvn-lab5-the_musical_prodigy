@@ -4,6 +4,7 @@
 #include <vector>
 #include "../include/User.h"
 #include "../include/CD.h"
+#include "../include/Operation.h"
 class Model
 {
 private:
@@ -18,7 +19,8 @@ public:
     bool addNewUser(User& user);
     bool hasUser(User& user);
     bool hasUserWithLogin(std::string login);
-    bool buyCD(int CDCode, int quantity);
+    bool canBuyCD(int CDCode, int quantity);
+    bool buyCD(const std::vector<Operation>& operations);
     std::vector<CD> availableCDsInfo();
     CD bestSellingCDInfo();
     int getMostPopularSingerSoldCDsAmount();

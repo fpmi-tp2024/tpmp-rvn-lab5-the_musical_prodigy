@@ -9,6 +9,10 @@ Operation::~Operation()
 }
 
 //Getters
+OperationCode Operation::getOperationCode() const
+{
+    return this->operationCode;
+}
 std::string Operation::getOperationDate() const
 {
     return this->operationDate;
@@ -23,6 +27,10 @@ int Operation::getNumberOfCDs() const
 }
 
 //Setters
+void Operation::setOperationCode(OperationCode code)
+{
+    this->operationCode = code;
+}
 void Operation::setOperationDate(std::string& date)
 {
     this->operationDate = date;
