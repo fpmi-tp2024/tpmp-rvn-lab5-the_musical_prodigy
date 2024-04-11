@@ -16,6 +16,11 @@ private:
     int numberOfCDs;
 public:
     Operation();
+    Operation(OperationCode code,
+        int CDCode,
+        std::string date = "2024-01-01",
+        int number = 10);
+
     ~Operation();
     OperationCode getOperationCode() const;
     std::string getOperationDate() const;

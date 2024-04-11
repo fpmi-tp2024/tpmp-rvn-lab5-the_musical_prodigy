@@ -3,7 +3,14 @@
 MusicalComposition::MusicalComposition(/* args */)
 {
 }
-
+MusicalComposition::MusicalComposition(std::string name,
+        std::vector<std::string>& author,
+        std::vector<std::string>& performer)
+{
+    this->name = name;
+    this->author = author;
+    this->performer = performer;
+}
 MusicalComposition::~MusicalComposition()
 {
 }

@@ -5,6 +5,21 @@ CD::CD()
     this->CDCode = -1;
 }
 
+CD::CD (int code,
+        std::vector<MusicalComposition>& compositions,
+        int year,
+        std::string manufacturer,
+        double price,
+        int amount)
+{
+    this->CDCode = code;
+    this->manufactureYear = year;
+    this->compositions = compositions;
+    this->manufacturer = manufacturer;
+    this->price = price;
+    this->amountInStock = amount;
+}
+
 CD::~CD()
 {
 }

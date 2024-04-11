@@ -15,6 +15,10 @@ private:
     std::string password;
 public:
     User();
+    User(UserRole id,
+        std::string name,
+        std::string pass);
+
     ~User();
     UserRole getUserRoleId() const;
     std::string getUsername() const;

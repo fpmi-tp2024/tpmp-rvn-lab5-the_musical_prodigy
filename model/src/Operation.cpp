@@ -4,6 +4,17 @@ Operation::Operation()
 {
 }
 
+Operation::Operation(OperationCode code,
+        int CDCode,
+        std::string date,
+        int number)
+{
+    this->CDCode = CDCode;
+    this->operationCode = code;
+    this->operationDate = date;
+    this->numberOfCDs = number;
+}
+
 Operation::~Operation()
 {
 }

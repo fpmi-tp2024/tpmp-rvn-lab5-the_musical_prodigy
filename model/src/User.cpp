@@ -4,6 +4,15 @@ User::User()
 {
 }
 
+User::User(UserRole id,
+        std::string name,
+        std::string pass)
+{
+    this->userRoleId = id;
+    this->username = name;
+    this->password = pass;
+}
+
 User::~User()
 {
 }
