@@ -16,11 +16,13 @@ private:
 	std::string _dbFileName;
 	User* _user;
 	std::unordered_map < std::string, Command*> _startMenuCommands;
+	std::unordered_map <std::string, Command*> _customerMenu;
+	std::unordered_map<std::string, Command*> _admitMenu;
 	void addStartMenuCommands();
 public:
 	View();
 	~View();
-	const Controller& getController();
+	Controller* getController();
 	bool addController(std::string dbFileName);
 	void printGreeting();
 	void printStartMenu();

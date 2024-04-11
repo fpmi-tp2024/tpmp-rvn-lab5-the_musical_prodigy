@@ -31,15 +31,15 @@ View::~View()
 	}
 }
 
-const Controller& View::getController()
+Controller* View::getController()
 {
-	return *_controller;
+	return _controller;
 }
 
 void View::addStartMenuCommands()
 {
-	this->_startMenuCommands["signUp"] = new SignUpCommand(this);
-	this->_startMenuCommands["signIn"] = new SignInCommand(this);
+	this->_startMenuCommands["signUp"] = new SignUpCommand(this, this->getController());
+	this->_startMenuCommands["signIn"] = new SignInCommand(this, this->getController());
 }
 
 
