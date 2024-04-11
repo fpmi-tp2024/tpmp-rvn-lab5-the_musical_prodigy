@@ -4,28 +4,45 @@ Model::Model()
 {
 }
 Model::Model(std::string dbFileName){
-    
+    this->dbFileName = dbFileName;
 }
+
 Model::~Model()
 {
 }
+
+//Getters
+std::string Model::getDBName() const
+{
+    return this->dbFileName;
+}
+
+//Setters
+void Model::setDBName(std::string& name)
+{
+    this->dbFileName = name;
+}
+
 bool Model::addDatabase(std::string dbFileName){
+    
+}
+bool Model::addNewUser(User& user){
 
 }
-bool Model::addNewUser(User* user){
+bool Model::hasUser(User& user){
 
 }
-bool Model::hasUser(User* user){
-
+bool Model::hasUserWithLogin(std::string login)
+{
 
 }
 bool Model::buyCD(int CDCode, int quantity){
 
 }
-std::vector<CD*> Model::availableCDsInfo(){
+std::vector<CD> Model::availableCDsInfo(){
 
 }
-std::vector<CD*> Model::bestSellingCDsInfo(){
+CD Model::bestSellingCDInfo(){
 
 }
 int Model::getMostPopularSingerSoldCDsAmount(){

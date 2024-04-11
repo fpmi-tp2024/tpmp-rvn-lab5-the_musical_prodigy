@@ -14,7 +14,20 @@ private:
     double price;
     int amountInStock;
 public:
-    CD(/* args */);
+    CD();
     ~CD();
+    int getCDCode() const;
+    int getManufactureYear() const;
+    std::string getManufacturer() const;
+    std::vector<MusicalComposition> getCompositions() const;
+    double getPrice() const;
+    int getAmounInStock() const;
+
+    void setCDCode(int code);
+    void setManufactureYear(int year);
+    void setManufacturer(std::string &newManufacturer);
+    void setCompositions(std::vector<MusicalComposition> &newCompositions);
+    void setPrice(double newPrice);
+    void setAmounInStock(int amount);
 };
 
