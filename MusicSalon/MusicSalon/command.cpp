@@ -273,6 +273,11 @@ MostPopularSingerSoldCDsAmountCommand::MostPopularSingerSoldCDsAmountCommand(Vie
 
 MostPopularSingerSoldCDsAmountCommand::~MostPopularSingerSoldCDsAmountCommand()
 {
+	
+}
+
+void MostPopularSingerSoldCDsAmountCommand::execute()
+{
 	int amount = this->_controller->getMostPopularSingerSoldCDsAmount();
 
 	if (amount == -1)
@@ -282,9 +287,4 @@ MostPopularSingerSoldCDsAmountCommand::~MostPopularSingerSoldCDsAmountCommand()
 	}
 
 	std::cout << "Amount of sold CDs of the most popular singer: " << amount << "\n";
-}
-
-void MostPopularSingerSoldCDsAmountCommand::execute()
-{
-
 }
