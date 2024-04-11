@@ -24,4 +24,5 @@ public:
 	std::vector<CD> getAvailableCDsInfo();
 	CD getBestSellingCDInfo();
 	int getMostPopularSingerSoldCDsAmount();
+	int getSoldCDsAmount(int CD_code, std::string startPeriod, std::string endPeriod);
 };

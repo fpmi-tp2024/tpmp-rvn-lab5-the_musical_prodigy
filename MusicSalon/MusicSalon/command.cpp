@@ -4,6 +4,8 @@
 
 //Command
 
+const std::string Command::endCommand = "q";
+
 Command::Command()
 {
 
@@ -86,7 +88,7 @@ void SignUpCommand::execute()
 {
 	std::string login = this->enterLogin();
 
-	if (login == "q")
+	if (login == endCommand)
 	{
 		return;
 	}
@@ -96,7 +98,7 @@ void SignUpCommand::execute()
 		std::cout << "User with this login already exists, try another login or type q to quit:\n";
 		login = this->enterLogin();
 
-		if (login == "q")
+		if (login == endCommand)
 		{
 			return;
 		}
@@ -104,7 +106,7 @@ void SignUpCommand::execute()
 
 	std::string password = this->enterPassword();
 	
-	if (password == "q")
+	if (password == endCommand)
 	{
 		return;
 	}
@@ -112,7 +114,7 @@ void SignUpCommand::execute()
 	std::cout << "Confirm your password:\n";
 	std::string passwordToConfirm = this->enterPassword();
 
-	if (passwordToConfirm == "q")
+	if (passwordToConfirm == endCommand)
 	{
 		return;
 	}
@@ -122,7 +124,7 @@ void SignUpCommand::execute()
 		std::cout << "Passwords are not equal, try to confirm again:\n";
 		passwordToConfirm = this->enterPassword();
 
-		if (passwordToConfirm == "q")
+		if (passwordToConfirm == endCommand)
 		{
 			return;
 		}
@@ -163,7 +165,7 @@ void SignInCommand::execute()
 	std::string chosenUserRole;
 	std::cin >> chosenUserRole;
 
-	if (chosenUserRole == "q")
+	if (chosenUserRole == endCommand)
 	{
 		return;
 	}
@@ -173,7 +175,7 @@ void SignInCommand::execute()
 		std::cout << "Enter '0' or '1'\n";
 		std::cin >> chosenUserRole;
 
-		if (chosenUserRole == "q")
+		if (chosenUserRole == endCommand)
 		{
 			return;
 		}
@@ -181,7 +183,7 @@ void SignInCommand::execute()
 
 	std::string login = this->enterLogin();
 
-	if (login == "q")
+	if (login == endCommand)
 	{
 		return;
 	}
@@ -262,10 +264,6 @@ void BestSellingCDInfoCommand::execute()
 
 //MostPopularSingerSoldCDsAmountCommand
 
-
-
-
-
 MostPopularSingerSoldCDsAmountCommand::MostPopularSingerSoldCDsAmountCommand(View* view, Controller* controller) : Command(view, controller)
 {
 	setDescription("Show amount of sold CDs of the most popular singer");
@@ -287,4 +285,101 @@ void MostPopularSingerSoldCDsAmountCommand::execute()
 	}
 
 	std::cout << "Amount of sold CDs of the most popular singer: " << amount << "\n";
+}
+
+// GetSoldCDsAmountByCDCodeAndTimePeriodCommand
+
+GetSoldCDsAmountByCDCodeAndTimePeriodCommand::GetSoldCDsAmountByCDCodeAndTimePeriodCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	setDescription("Show amount of sold CDs by CD code and period of time");
+}
+
+GetSoldCDsAmountByCDCodeAndTimePeriodCommand::~GetSoldCDsAmountByCDCodeAndTimePeriodCommand()
+{
+
+}
+
+void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
+{
+	std::string CD_code;
+	std::cout << "Enter CD code:\n";
+	std::getline(std::cin, CD_code);
+
+	if (CD_code == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isCorrectCDCode(CD_code))
+	{
+		if (CD_code == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect CD code format, try again:\n";
+		std::getline(std::cin, CD_code);
+	}
+
+	std::string startPeriod;
+	std::cout << "Enter start period in format yyyy-mm-dd (year >= 2000):\n";
+	std::getline(std::cin, startPeriod);
+
+	if (startPeriod == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isValidDate(startPeriod))
+	{
+		if (startPeriod == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect data format, try again:\n";
+		std::getline(std::cin, startPeriod);
+	}
+
+	std::string endPeriod;
+	std::cout << "Enter end period in format yyyy-mm-dd:\n";
+	std::getline(std::cin, endPeriod);
+
+	if (endPeriod == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isValidDate(endPeriod))
+	{
+		if (endPeriod == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect data format, try again:\n";
+		std::getline(std::cin, endPeriod);
+	}
+
+	while (this->_view->compareDates(startPeriod, endPeriod) == 1) // startPeriod > endPeriod
+	{
+		std::cout << "End period should  go after start period, try enter end period again:\n";
+		std::getline(std::cin, endPeriod);
+		if (endPeriod == endCommand)
+		{
+			return;
+		}
+	}
+
+	int soldCDsAmount = this->_controller->getSoldCDsAmount(stoi(CD_code), startPeriod, endPeriod);
+
+	if (soldCDsAmount == -1)
+	{
+		std::cout << "No data found\n";
+		return;
+	}
+
+	std::cout << "Sold CDs amount by CD code: " << CD_code << " , start date: " << startPeriod;
+    std::cout << " , end period: " << endPeriod << ":\n";
+	std::cout << soldCDsAmount << "\n";
 }

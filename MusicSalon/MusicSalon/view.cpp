@@ -147,6 +147,71 @@ void View::printCD(const CD& cd)
 	std::cout << "Amount in stock: " << CD.amountInStock << "\n";
 }
 
+bool View::isCorrectCDCode(const std::string& str) {
+	if (str.empty()) {
+		return false;
+	}
+	for (char ch : str) {
+		if (!std::isdigit(ch)) {
+			return false;
+		}
+	}
+
+	int number;
+	std::istringstream iss(str);
+	iss >> number;
+	return (number > 0);
+}
+
+bool View::isValidDate(const std::string& dateStr) {
+	std::regex pattern("^\\d{4}-\\d{2}-\\d{2}$");
+
+	if (!std::regex_match(dateStr, pattern)) {
+		return false; // Неверный формат даты
+	}
+
+	int year, month, day;
+	sscanf(dateStr.c_str(), "%d-%d-%d", &year, &month, &day);
+
+	auto now = std::chrono::system_clock::now();
+	time_t nowTime = std::chrono::system_clock::to_time_t(now);
+	struct tm* nowTM = std::localtime(&nowTime);
+	int currentYear = nowTM->tm_year + 1900;
+
+	if (year < 2000 || year > currentYear) {
+		return false;
+	}
+
+	if (month < 1 || month > 12) {
+		return false;
+	}
+
+	if (day < 1 || day > 31) {
+		return false;
+	}
+
+	return true;
+}
+
+int View::compareDates(const std::string& date1, const std::string& date2) {
+	int year1, month1, day1;
+	sscanf(date1.c_str(), "%d-%d-%d", &year1, &month1, &day1);
+
+	int year2, month2, day2;
+	sscanf(date2.c_str(), "%d-%d-%d", &year2, &month2, &day2);
+
+	if (year1 < year2) return -1;
+	if (year1 > year2) return 1;
+
+	if (month1 < month2) return -1;
+	if (month1 > month2) return 1;
+
+	if (day1 < day2) return -1;
+	if (day1 > day2) return 1;
+
+	return 0;
+}
+
 void View::start()
 {
 	printGreeting();

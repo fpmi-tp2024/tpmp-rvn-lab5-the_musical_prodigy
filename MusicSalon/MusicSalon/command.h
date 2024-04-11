@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
+
 
 class Command
 {
@@ -13,6 +15,7 @@ protected:
 	View* _view;
 	Controller* _controller;
 	std::string _description;
+	static const std::string endCommand;
 public:
 	Command();
 	Command(View* view, Controller* controller);
@@ -67,6 +70,13 @@ class MostPopularSingerSoldCDsAmountCommand : public Command
 {
 	MostPopularSingerSoldCDsAmountCommand(View* view, Controller* controller);
 	~MostPopularSingerSoldCDsAmountCommand();
+	void execute() override;
+};
+
+class GetSoldCDsAmountByCDCodeAndTimePeriodCommand : public Command
+{
+	GetSoldCDsAmountByCDCodeAndTimePeriodCommand(View* view, Controller* controller);
+	~GetSoldCDsAmountByCDCodeAndTimePeriodCommand();
 	void execute() override;
 };
 

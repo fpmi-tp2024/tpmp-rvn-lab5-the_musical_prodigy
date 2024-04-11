@@ -12,6 +12,8 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <regex>
+#include <chrono>
 
 class View
 {
@@ -35,6 +37,9 @@ public:
 	void setUser(User* user);
 	void printComposition(const MusicalComposition& composition);
 	void printCD(const CD& cd);
+	bool isCorrectCDCode(const std::string& str);
+	bool isValidDate(const std::string& dateStr);
+	int compareDates(const std::string& date1, const std::string& date2);
 	void start();
 };
 
