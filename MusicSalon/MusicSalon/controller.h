@@ -4,7 +4,9 @@
 
 #include "model.h"
 #include "user.h"
+#iinclude "CD.h"
 #include <string>
+#include <vector>
 
 class Controller
 {
@@ -19,4 +21,5 @@ public:
 	bool checkLoginIfAlreadyExist(std::string login);
 	bool signUp(User* user);
 	bool signIn(User* user);
+	std::vector<CD*> getAvailableCDsInfo();
 };

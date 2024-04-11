@@ -5,6 +5,7 @@
 #include "view.h"
 #include <iostream>
 #include <string>
+#include <vector>
 
 class Command
 {
@@ -44,10 +45,15 @@ class SignInCommand : public AuthorizationCommand
 {
 public:
 	SignInCommand(View* view, Controller* controller);
-	SignInCommand();
+	~SignInCommand();
 	void execute() override;
 };
 
-
+class AvailableCDsInfoCommand : public Command
+{
+	AvailableCDsInfoCommand(View* view, Controller* controller);
+	~AvailableCDsInfoCommand();
+	void execute() override;
+};
 
 

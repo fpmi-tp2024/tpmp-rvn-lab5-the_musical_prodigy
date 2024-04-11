@@ -201,3 +201,36 @@ void SignInCommand::execute()
 		std::cout << "Incorrect login or password\n";
 	}
 }
+
+//AvailableCDsInfoCommand
+
+AvailableCDsInfoCommand::AvailableCDsInfoCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	setDescription("Show info about all available CDs in out salon");
+}
+
+AvailableCDsInfoCommand::~AvailableCDsInfoCommand()
+{
+
+}
+
+void AvailableCDsInfoCommand::execute()
+{
+	std::vector<CD*> info;
+
+	info = this->_controller->getAvailableCDsInfo();
+	
+	if (info.empty())
+	{
+		std::cout << "No data find\n";
+		return;
+	}
+
+	std::cout << "Available CDs list:\n";
+
+	for (int i = 0; i < info.size(); i++)
+	{
+		this->_view->printCD(info[i]);
+		std::cout << "\n";
+	}
+}
