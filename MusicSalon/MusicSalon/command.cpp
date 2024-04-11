@@ -130,7 +130,7 @@ void SignUpCommand::execute()
 
 	User* user = new User(0, login, password); // 0
 
-	if (this->_controller->signUp(user))
+	if (this->_controller->signUp(*user))
 	{
 		std::cout << "You have signed up successfully!\n";
 		this->_view->setUser(user);
@@ -190,7 +190,7 @@ void SignInCommand::execute()
 
 	User* user = new User(stoi(chosenUserRole), login, password);
 
-	if (this->_controller->signIn(user))
+	if (this->_controller->signIn(*user))
 	{
 		std::cout << "You have signed in successfully!\n";
 		this->_view->setUser(user);
@@ -216,13 +216,11 @@ AvailableCDsInfoCommand::~AvailableCDsInfoCommand()
 
 void AvailableCDsInfoCommand::execute()
 {
-	std::vector<CD*> info;
-
-	info = this->_controller->getAvailableCDsInfo();
+	std::vector<CD> info = this->_controller->getAvailableCDsInfo();
 	
 	if (info.empty())
 	{
-		std::cout << "No data find\n";
+		std::cout << "No data found\n";
 		return;
 	}
 
@@ -233,4 +231,60 @@ void AvailableCDsInfoCommand::execute()
 		this->_view->printCD(info[i]);
 		std::cout << "\n";
 	}
+}
+
+//BestSellingCDInfoCommand
+
+BestSellingCDInfoCommand::BestSellingCDInfoCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	setDescription("Show info about the best selling CD");
+}
+
+BestSellingCDInfoCommand::~BestSellingCDInfoCommand()
+{
+
+}
+
+void BestSellingCDInfoCommand::execute()
+{
+	CD = this->_controller->getBestSellingCDInfo();
+
+	if (CD.empty())
+	{
+		std::cout << "No data found\n";
+		return;
+	}
+
+	std::cout << "Information about the best selling CD:\n";
+	this->_view->printCD(CD);
+	std::cout << "\n";
+}
+
+//MostPopularSingerSoldCDsAmountCommand
+
+
+
+
+
+MostPopularSingerSoldCDsAmountCommand::MostPopularSingerSoldCDsAmountCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	setDescription("Show amount of sold CDs of the most popular singer");
+}
+
+MostPopularSingerSoldCDsAmountCommand::~MostPopularSingerSoldCDsAmountCommand()
+{
+	int amount = this->_controller->getMostPopularSingerSoldCDsAmount();
+
+	if (amount == -1)
+	{
+		std::cout << "No fata found\n";
+		return;
+	}
+
+	std::cout << "Amount of sold CDs of the most popular singer: " << amount << "\n";
+}
+
+void MostPopularSingerSoldCDsAmountCommand::execute()
+{
+
 }

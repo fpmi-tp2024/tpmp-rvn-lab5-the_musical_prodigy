@@ -88,17 +88,11 @@ void View::setUser(User* user)
 	this->_user = user;
 }
 
-void View::printComposition(MusicalComposition* composition)
+void View::printComposition(const MusicalComposition& composition)
 {
-	if (composition == nullptr)
-	{
-		std::cout << "No information about composition\n";
-		return;
-	}
-
-	std::cout << "Name: " << composition->name << "\n";
+	std::cout << "Name: " << composition.name << "\n";
 	
-	if (composition->author.empty())
+	if (composition.author.empty())
 	{
 		std::cout << "No information about author\n";
 	}
@@ -106,14 +100,14 @@ void View::printComposition(MusicalComposition* composition)
 	else
 	{
 		std::cout << "Autors:\n";
-		for (int i = 0; i < composition->author.size(); i++)
+		for (int i = 0; i < composition.author.size(); i++)
 		{
-			std::cout << composition->author[i] << " ";
+			std::cout << composition.author[i] << " ";
 		}
 		std::cout << "\n";
 	}
 
-	if (composition->performer.empty())
+	if (composition.performer.empty())
 	{
 		std::cout << "No information about performer\n";
 	}
@@ -121,27 +115,21 @@ void View::printComposition(MusicalComposition* composition)
 	else
 	{
 		std::cout << "Performers:\n";
-		for (int i = 0; i < composition->performer.size(); i++)
+		for (int i = 0; i < composition.performer.size(); i++)
 		{
-			std::cout << composition->performer[i] << " ";
+			std::cout << composition.performer[i] << " ";
 		}
 		std::cout << "\n";
 	}
 }
 
-void View::printCD(CD* cd)
+void View::printCD(const CD& cd)
 {
-	if (CD == nullptr)
-	{
-		std::cout << "No information about CD\n";
-		return;
-	}
+	std::cout << "Code: " << CD.CD_code << "\n";
+	std::cout << "Manufacture year: " << CD.manufacture_year << "\n";
+	std::cout << "Manufacturer: " << CD.manufacturer << "\n";
 
-	std::cout << "Code: " << CD->CD_code << "\n";
-	std::cout << "Manufacture year: " << CD->manufacture_year << "\n";
-	std::cout << "Manufacturer: " << CD->manufacturer << "\n";
-
-	if (CD->compositions.empty())
+	if (CD.compositions.empty())
 	{
 		std::cout << "No information about compositions\n";
 	}
@@ -149,14 +137,14 @@ void View::printCD(CD* cd)
 	else
 	{
 		std::cout << "Compositions:\n";
-		for (int i = 0; i < CD->compositions.size(); i++)
+		for (int i = 0; i < CD.compositions.size(); i++)
 		{
-			this->printComposition(CD->compositions[i]);
+			this->printComposition(CD.compositions[i]);
 		}
 	}
 
-	std::cout << "Price: " << CD->price << "\n";
-	std::cout << "Amount in stock: " << CD->amountInStock << "\n";
+	std::cout << "Price: " << CD.price << "\n";
+	std::cout << "Amount in stock: " << CD.amountInStock << "\n";
 }
 
 void View::start()

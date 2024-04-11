@@ -56,10 +56,18 @@ class AvailableCDsInfoCommand : public Command
 	void execute() override;
 };
 
-class BestSellingCDInfo : public Command
+class BestSellingCDInfoCommand : public Command
 {
-	BestSellingCDInfo(View* view, Controller* controller);
-	~
+	BestSellingCDInfoCommand(View* view, Controller* controller);
+	~BestSellingCDInfoCommand();
+	void execute() override;
+};
+
+class MostPopularSingerSoldCDsAmountCommand : public Command
+{
+	MostPopularSingerSoldCDsAmountCommand(View* view, Controller* controller);
+	~MostPopularSingerSoldCDsAmountCommand();
+	void execute() override;
 };
 
 

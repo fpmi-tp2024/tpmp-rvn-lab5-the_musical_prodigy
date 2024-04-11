@@ -33,8 +33,8 @@ public:
 	void printGreeting();
 	void printStartMenu();
 	void setUser(User* user);
-	void printComposition(MusicalComposition* composition);
-	void printCD(CD* cd);
+	void printComposition(const MusicalComposition& composition);
+	void printCD(const CD& cd);
 	void start();
 };
 
