@@ -1,5 +1,7 @@
 //MariaGorelik
 
+//ToDo: переделать конструктор view, controller создается отдельно!!!
+
 #pragma once
 
 #include "controller.h"

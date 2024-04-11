@@ -56,4 +56,10 @@ class AvailableCDsInfoCommand : public Command
 	void execute() override;
 };
 
+class BestSellingCDInfo : public Command
+{
+	BestSellingCDInfo(View* view, Controller* controller);
+	~
+};
+
 
