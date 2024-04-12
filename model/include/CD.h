@@ -21,7 +21,7 @@ public:
         std::string manufacturer = "Belarus",
         double price = 10.0,
         int amount = 100);
-        
+
     ~CD();
     int getCDCode() const;
     int getManufactureYear() const;
