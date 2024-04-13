@@ -42,11 +42,18 @@ void View::addStartMenuCommands()
 {
 	this->_startMenuCommands["signUp"] = new SignUpCommand(this, this->getController());
 	this->_startMenuCommands["signIn"] = new SignInCommand(this, this->getController());
+	this->_startMenuCommands["quit"] = new QuitCommand(this, this->getController());
 }
 
 void View::addCustomerMenuCommands()
 {
-
+	this->_startMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
+    this->_startMenuCommands["1"] = new AvailableCDsInfoCommand(this, this->getController());
+	this->_startMenuCommands["2"] = new BestSellingCDInfoCommand(this, this->getController());
+	this->_startMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
+	this->_startMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
+	this->_startMenuCommands["buy"] = new BuyCDCommand(this, this->getController());
+	this->_startMenuCommands["quit"] = new QuitCommand(this, this->getController());
 }
 
 void View::addAdminMenuCommands()
@@ -58,7 +65,8 @@ void View::addAdminMenuCommands()
 void View::addController(Controller* controller)
 {
 		addStartMenuCommands();
-
+		addCustomerMenuCommands();
+		addAdminMenuCommands();
 }
 
 void View::printGreeting()
