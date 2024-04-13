@@ -135,7 +135,7 @@ void SignUpCommand::execute()
 	if (this->_controller->signUp(*user))
 	{
 		std::cout << "You have signed up successfully!\n";
-		this->_view->setUser(user);
+		this->_view->_user = user;
 	}
 
 	else
@@ -195,13 +195,30 @@ void SignInCommand::execute()
 	if (this->_controller->signIn(*user))
 	{
 		std::cout << "You have signed in successfully!\n";
-		this->_view->setUser(user);
+		this->_view->_user = user;
 	}
 
 	else
 	{
 		std::cout << "Incorrect login or password\n";
 	}
+}
+
+// LogOutCommand
+
+LogOutCommand::LogOutCommand(View* view, Controller* controller): Command(view, controller)
+{
+	setDescription("Log out");
+}
+
+LogOutCommand::~LogOutCommand()
+{
+
+}
+
+void LogOutCommand::execute()
+{
+	this->_view->_user = nullptr;
 }
 
 //AvailableCDsInfoCommand

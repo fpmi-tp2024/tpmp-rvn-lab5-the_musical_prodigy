@@ -37,7 +37,6 @@ public:
 	bool addController(std::string dbFileName);
 	void printGreeting();
 	void printStartMenu();
-	void setUser(User* user);
 	void printComposition(const MusicalComposition& composition);
 	void printCD(const CD& cd);
 	bool isCorrectCDCode(const std::string& str);
@@ -46,5 +45,8 @@ public:
 	int compareDates(const std::string& date1, const std::string& date2);
 	std::string getCurrentDate();
 	void start();
+	friend class SignUpCommand;
+	friend class SignInCommand;
+	friend class LogOutCommand;
 };
 

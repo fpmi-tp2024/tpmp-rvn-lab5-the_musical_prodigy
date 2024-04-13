@@ -52,6 +52,14 @@ public:
 	void execute() override;
 };
 
+class LogOutCommand : public Command
+{
+public:
+	LogOutCommand(View* view, Controller* controller);
+	~LogOutCommand();
+	void execute() override;
+};
+
 class AvailableCDsInfoCommand : public Command
 {
 public:
