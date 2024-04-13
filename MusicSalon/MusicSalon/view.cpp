@@ -3,7 +3,7 @@
 #include "view.h"
 #include "command.h"
 
-const std::string View::qiutCommand = "quit";
+const std::string View::quitCommand = "quit";
 
 View::View()
 {
@@ -42,7 +42,7 @@ void View::addStartMenuCommands()
 {
 	this->_startMenuCommands["signUp"] = new SignUpCommand(this, this->getController());
 	this->_startMenuCommands["signIn"] = new SignInCommand(this, this->getController());
-	this->_startMenuCommands["quit"] = new QuitCommand(this, this->getController());
+	this->_startMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
 void View::addCustomerMenuCommands()
@@ -53,12 +53,13 @@ void View::addCustomerMenuCommands()
 	this->_startMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
 	this->_startMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
 	this->_startMenuCommands["buy"] = new BuyCDCommand(this, this->getController());
-	this->_startMenuCommands["quit"] = new QuitCommand(this, this->getController());
+	this->_startMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
 void View::addAdminMenuCommands()
 {
-
+	this->_startMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
+	this->_startMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
 
@@ -107,9 +108,11 @@ void View::printAdminMenu()
 
 void View::printComposition(const MusicalComposition& composition)
 {
-	std::cout << "Name: " << composition.name << "\n";
+	std::cout << "Name: " << composition.getName() << "\n";
 	
-	if (composition.author.empty())
+	std::vector<std::string> authors = composition.getAuthor();
+	
+	if (authors.empty())
 	{
 		std::cout << "No information about author\n";
 	}
@@ -117,14 +120,16 @@ void View::printComposition(const MusicalComposition& composition)
 	else
 	{
 		std::cout << "Autors:\n";
-		for (int i = 0; i < composition.author.size(); i++)
+		for (int i = 0; i < authors.size(); i++)
 		{
-			std::cout << composition.author[i] << " ";
+			std::cout << authors[i] << " ";
 		}
 		std::cout << "\n";
 	}
 
-	if (composition.performer.empty())
+	std::vector<std::string> performers = composition.getPerformer();
+
+	if (performers.empty())
 	{
 		std::cout << "No information about performer\n";
 	}
@@ -132,9 +137,9 @@ void View::printComposition(const MusicalComposition& composition)
 	else
 	{
 		std::cout << "Performers:\n";
-		for (int i = 0; i < composition.performer.size(); i++)
+		for (int i = 0; i < performers.size(); i++)
 		{
-			std::cout << composition.performer[i] << " ";
+			std::cout << performers[i] << " ";
 		}
 		std::cout << "\n";
 	}
@@ -142,11 +147,13 @@ void View::printComposition(const MusicalComposition& composition)
 
 void View::printCD(const CD& cd)
 {
-	std::cout << "Code: " << CD.CD_code << "\n";
-	std::cout << "Manufacture year: " << CD.manufacture_year << "\n";
-	std::cout << "Manufacturer: " << CD.manufacturer << "\n";
+	std::cout << "Code: " << cd.getCDCode() << "\n";
+	std::cout << "Manufacture year: " << cd.getManufactureYear() << "\n";
+	std::cout << "Manufacturer: " << cd.getManufacturer() << "\n";
 
-	if (CD.compositions.empty())
+	std::vector<MusicalComposition> compositions = cd.getCompositions();
+	
+	if (compositions.empty())
 	{
 		std::cout << "No information about compositions\n";
 	}
@@ -154,14 +161,14 @@ void View::printCD(const CD& cd)
 	else
 	{
 		std::cout << "Compositions:\n";
-		for (int i = 0; i < CD.compositions.size(); i++)
+		for (int i = 0; i < compositions.size(); i++)
 		{
-			this->printComposition(CD.compositions[i]);
+			this->printComposition(compositions[i]);
 		}
 	}
 
-	std::cout << "Price: " << CD.price << "\n";
-	std::cout << "Amount in stock: " << CD.amountInStock << "\n";
+	std::cout << "Price: " << cd.getPrice() << "\n";
+	std::cout << "Amount in stock: " << cd.getAmounInStock() << "\n";
 }
 
 bool View::isCorrectCDCode(const std::string& str) {
@@ -264,16 +271,48 @@ void View::start()
 	printGreeting();
 	printStartMenu();
 	std::string userCommand;
-	do
-	{
-		std::cout << "Choose an appropriate command: \n";
-		std::cin >> userCommand;
-	} while (this->_startMenuCommands.find(userCommand) == this->_startMenuCommands.end());
 
-	if (this->_startMenuCommands.contains(userCommand))
+	while (userCommand != View::quitCommand)
 	{
-		this->_startMenuCommands[userCommand]->execute();
+		std::getline(std::cin, userCommand);
+		
+		if (this->_user == nullptr)
+		{
+			if (this->_startMenuCommands.find(userCommand) == this->_startMenuCommands.end())
+			{
+				std::cout << "Choose an appropriate command: \n";
+			}
+
+			else
+			{
+				this->_startMenuCommands[userCommand]->execute();
+			}
+		}
+
+		else if (this->_user->getUserRoleId() == UserRole::USER)
+		{
+			if (this->_customerMenuCommands.find(userCommand) == this->_customerMenuCommands.end())
+			{
+				std::cout << "Choose an appropriate command: \n";
+			}
+
+			else
+			{
+				this->_customerMenuCommands[userCommand]->execute();
+			}
+		}
+
+		else if (this->_user->getUserRoleId() == UserRole::ADMIN)
+		{
+			if (this->_adminMenuCommands.find(userCommand) == this->_adminMenuCommands.end())
+			{
+				std::cout << "Choose an appropriate command: \n";
+			}
+
+			else
+			{
+				this->_adminMenuCommands[userCommand]->execute();
+			}
+		}
 	}
-
-
 }

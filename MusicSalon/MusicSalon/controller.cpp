@@ -25,3 +25,53 @@ bool Controller::addModel(std::string dbFileName)
 	}
 	return false;
 }
+
+bool Controller::checkLoginIfAlreadyExist(std::string login)
+{
+	return this->_model->hasUserWithLogin(login);
+}
+
+bool Controller::signUp(const User& user)
+{
+	return this->_model->addNewUser(user);
+}
+
+bool Controller::signIn(const User& user)
+{
+	return this->_model->hasUser(user);
+}
+
+std::vector<CD> Controller::getAvailableCDsInfo()
+{
+	return this->_model->availableCDsInfo();
+}
+
+CD Controller::getBestSellingCDInfo()
+{
+	return this->_model->bestSellingCDInfo();
+}
+
+int Controller::getMostPopularSingerSoldCDsAmount()
+{
+	return this->_model->getMostPopularSingerSoldCDsAmount();
+}
+
+int Controller::getSoldCDsAmount(int CD_code, std::string startPeriod, std::string endPeriod)
+{
+	return this->_model->getSoldCDsAmount(CD_code, startPeriod, endPeriod);
+}
+
+bool Controller::canBuyCD(int CD_code)
+{
+	return this->_model->canBuyCD(CD_code);
+}
+
+bool Controller::canBuyCD(int CD_code, int quantity)
+{
+	return this->_model->canBuyCD(CD_code, quantity);
+}
+
+bool Controller::buyCD(const std::vector<Operation>& operations)
+{
+	return this->_model->buyCD(operations);
+}

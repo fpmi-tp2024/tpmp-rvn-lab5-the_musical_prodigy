@@ -1,5 +1,7 @@
 //MariaGorelik
 
+//ToDo: add printMenu commands
+
 #pragma once
 
 #include "view.h"
@@ -63,10 +65,10 @@ public:
 class QuitCommand : public Command
 {
 public:
-	QuitCommand(View * view, Controller * controller);
+	QuitCommand(View* view, Controller* controller);
 	~QuitCommand();
 	void execute() override;
-}
+};
 
 class AvailableCDsInfoCommand : public Command
 {

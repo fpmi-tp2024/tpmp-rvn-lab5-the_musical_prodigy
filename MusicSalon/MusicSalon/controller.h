@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "model.h"
-#include "user.h"
-#iinclude "CD.h"
+#include "Model.h"
+#include "User.h"
+#include "CD.h"
 #include <string>
 #include <vector>
 

@@ -132,12 +132,21 @@ void SignUpCommand::execute()
 		}
 	}
 
-	User* user = new User(0, login, password); // 0
+	User* user = new User(UserRole::USER, login, password);
 
 	if (this->_controller->signUp(*user))
 	{
 		std::cout << "You have signed up successfully!\n";
 		this->_view->_user = user;
+		if (this->_view->_user->getUserRoleId() == UserRole::USER)
+		{
+			this->_view->printCustomerMenu();
+		}
+
+		else if (this->_view->_user->getUserRoleId() == UserRole::ADMIN)
+		{
+			this->_view->printAdminMenu();
+		}
 	}
 
 	else
@@ -192,12 +201,31 @@ void SignInCommand::execute()
 
 	std::string password = this->enterPassword();
 
-	User* user = new User(stoi(chosenUserRole), login, password);
+	User* user;
+
+	if (chosenUserRole == "0")
+	{
+		user = new User(UserRole::USER, login, password);
+	}
+
+	else
+	{
+		user = new User(UserRole::ADMIN, login, password);
+	}
 
 	if (this->_controller->signIn(*user))
 	{
 		std::cout << "You have signed in successfully!\n";
 		this->_view->_user = user;
+		if (this->_view->_user->getUserRoleId() == UserRole::USER)
+		{
+			this->_view->printCustomerMenu();
+		}
+
+		else if (this->_view->_user->getUserRoleId() == UserRole::ADMIN)
+		{
+			this->_view->printAdminMenu();
+		}
 	}
 
 	else
@@ -287,7 +315,7 @@ void BestSellingCDInfoCommand::execute()
 {
 	CD cd = this->_controller->getBestSellingCDInfo();
 
-	if (cd.empty())
+	if (cd.getCDCode() == -1)
 	{
 		std::cout << "No data found\n";
 		return;
@@ -502,7 +530,7 @@ void BuyCDCommand::execute()
 
 				for (int i = 0; i < orders.size(); i++)
 				{
-					Operation operation = Operation(this->_view->getCurrentDate(), operCode ? ? ? , orders[i].first, orders[i].second);
+					Operation operation = Operation(OperationCode::SELL, orders[i].first, this->_view->getCurrentDate(), orders[i].second);
 					operations[i] = operation;
 				}
 

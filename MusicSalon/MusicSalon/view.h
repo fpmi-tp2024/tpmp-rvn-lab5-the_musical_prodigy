@@ -4,7 +4,7 @@
 
 #include "controller.h"
 #include "command.h"
-#include "user.h"
+#include "User.h"
 #include "CD.h"
 #include "MusicalComposition.h"
 #include "Operation.h"
@@ -21,7 +21,7 @@ class View
 private:
 	Controller* _controller;
 	User* _user;
-	static const std::string qiutCommand;
+	static const std::string quitCommand;
 	std::unordered_map < std::string, Command*> _startMenuCommands;
 	std::unordered_map <std::string, Command*> _customerMenuCommands;
 	std::unordered_map<std::string, Command*> _adminMenuCommands;
