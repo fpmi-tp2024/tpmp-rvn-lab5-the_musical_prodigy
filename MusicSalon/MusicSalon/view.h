@@ -1,7 +1,5 @@
 //MariaGorelik
 
-//ToDo: переделать конструктор view, controller создается отдельно!!!
-
 #pragma once
 
 #include "controller.h"
@@ -37,6 +35,8 @@ public:
 	void addController(Controller* controller);
 	void printGreeting();
 	void printStartMenu();
+	void printCustomerMenu();
+	void printAdminMenu();
 	void printComposition(const MusicalComposition& composition);
 	void printCD(const CD& cd);
 	bool isCorrectCDCode(const std::string& str);

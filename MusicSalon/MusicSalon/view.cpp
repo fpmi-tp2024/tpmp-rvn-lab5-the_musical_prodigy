@@ -82,7 +82,26 @@ void View::printStartMenu()
 		std::cout << it->first << ":\t" << it->second->getDescription() << "\n";
 	}
 
-	std::cout << "quit:\tquit\n";
+	std::cout << "use 'q' command to quit from all commands\n";
+}
+
+void View::printCustomerMenu()
+{
+	for (auto it = this->_customerMenuCommands.begin(); it != this->_customerMenuCommands.end(); ++it)
+	{
+		std::cout << it->first << ":\t" << it->second->getDescription() << "\n";
+	}
+
+	std::cout << "use 'q' command to quit from all commands\n";
+}
+
+void View::printAdminMenu()
+{
+	for (auto it = this->_adminMenuCommands.begin(); it != this->_adminMenuCommands.end(); ++it)
+	{
+		std::cout << it->first << ":\t" << it->second->getDescription() << "\n";
+	}
+
 	std::cout << "use 'q' command to quit from all commands\n";
 }
 

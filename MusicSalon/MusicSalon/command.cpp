@@ -1,5 +1,7 @@
 //MariaGorelik
 
+//ToDo: захешировать пароли
+
 #include "command.h"
 
 //Command
