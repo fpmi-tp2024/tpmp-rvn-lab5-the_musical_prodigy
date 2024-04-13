@@ -25,4 +25,7 @@ public:
 	CD getBestSellingCDInfo();
 	int getMostPopularSingerSoldCDsAmount();
 	int getSoldCDsAmount(int CD_code, std::string startPeriod, std::string endPeriod);
+	bool canBuyCD(int CD_code);
+	bool canBuyCD(int CD_code, int quantity);
+	bool buyCD(const std::vector<Operation>& operations);
 };

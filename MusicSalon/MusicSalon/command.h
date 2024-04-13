@@ -54,6 +54,7 @@ public:
 
 class AvailableCDsInfoCommand : public Command
 {
+public:
 	AvailableCDsInfoCommand(View* view, Controller* controller);
 	~AvailableCDsInfoCommand();
 	void execute() override;
@@ -61,6 +62,7 @@ class AvailableCDsInfoCommand : public Command
 
 class BestSellingCDInfoCommand : public Command
 {
+public:
 	BestSellingCDInfoCommand(View* view, Controller* controller);
 	~BestSellingCDInfoCommand();
 	void execute() override;
@@ -68,6 +70,7 @@ class BestSellingCDInfoCommand : public Command
 
 class MostPopularSingerSoldCDsAmountCommand : public Command
 {
+public:
 	MostPopularSingerSoldCDsAmountCommand(View* view, Controller* controller);
 	~MostPopularSingerSoldCDsAmountCommand();
 	void execute() override;
@@ -75,8 +78,22 @@ class MostPopularSingerSoldCDsAmountCommand : public Command
 
 class GetSoldCDsAmountByCDCodeAndTimePeriodCommand : public Command
 {
+public:
 	GetSoldCDsAmountByCDCodeAndTimePeriodCommand(View* view, Controller* controller);
 	~GetSoldCDsAmountByCDCodeAndTimePeriodCommand();
+	void execute() override;
+};
+
+class BuyCDCommand : public Command
+{
+private:
+	static const std::string endBuyCommand;
+	std::vector<std::pair<int, int>> orders;
+	bool isCorrectCDcodeAndAmount(const std::string& input);
+	void printOrders();
+public:
+	BuyCDCommand(View* view, Controller* controller);
+	~BuyCDCommand();
 	void execute() override;
 };
 

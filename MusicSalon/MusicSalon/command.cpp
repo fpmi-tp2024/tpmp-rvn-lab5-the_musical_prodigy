@@ -249,16 +249,16 @@ BestSellingCDInfoCommand::~BestSellingCDInfoCommand()
 
 void BestSellingCDInfoCommand::execute()
 {
-	CD = this->_controller->getBestSellingCDInfo();
+	CD cd = this->_controller->getBestSellingCDInfo();
 
-	if (CD.empty())
+	if (cd.empty())
 	{
 		std::cout << "No data found\n";
 		return;
 	}
 
 	std::cout << "Information about the best selling CD:\n";
-	this->_view->printCD(CD);
+	this->_view->printCD(cd);
 	std::cout << "\n";
 }
 
@@ -382,4 +382,146 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 	std::cout << "Sold CDs amount by CD code: " << CD_code << " , start date: " << startPeriod;
     std::cout << " , end period: " << endPeriod << ":\n";
 	std::cout << soldCDsAmount << "\n";
+}
+
+// BuyCDCommand
+
+const std::string BuyCDCommand::endBuyCommand = "buy";
+
+BuyCDCommand::BuyCDCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	setDescription("Buy CDs");
+}
+
+BuyCDCommand::~BuyCDCommand()
+{
+
+}
+
+bool BuyCDCommand::isCorrectCDcodeAndAmount(const std::string& input)
+{
+	if (input.empty())
+	{
+		return false;
+	}
+
+	std::istringstream iss(input);
+	int num1, num2;
+	char delimiter;
+
+	if (!(iss >> num1 >> delimiter >> num2) || delimiter != ' ') {
+		return false;
+	}
+
+	if (num1 <= 0 || num2 <= 0) {
+		return false;
+	}
+
+	char c;
+	if (iss >> c) {
+		return false;
+	}
+
+	return true;
+}
+
+void BuyCDCommand::printOrders()
+{
+	std::cout << "Your order:\n";
+	for (int i = 0; i < orders.size(); i++)
+	{
+		std::cout << "CD code: " << orders[i].first << " quantity: " << orders[i].second << "\n";
+	}
+}
+
+void BuyCDCommand::execute()
+{
+	std::cout << "Choode CDs to buy:\n";
+	std::cout << "For each CD enter CD code and number of CDs if format 'cd_code number'\n";
+	std::cout << "To complete operation, enter 'buy'\n";
+
+	std::string input;
+
+	bool canMakeOrder = false;
+
+	while (input != endCommand)
+	{
+		std::getline(std::cin, input);
+
+		if (input == endBuyCommand)
+		{
+			if (canMakeOrder)
+			{
+				printOrders();
+
+				std::cout << "If you agree to complete the operation, type 'y', if not agree, type anything but 'y':\n";
+				std::string answer;
+				std::getline(std::cin, answer);
+				if (answer != "y")
+				{
+					return;
+				}
+
+				std::vector<Operation> operations(orders.size());
+
+				for (int i = 0; i < orders.size(); i++)
+				{
+					Operation operation = Operation(this->_view->getCurrentDate(), operCode ? ? ? , orders[i].first, orders[i].second);
+					operations[i] = operation;
+				}
+
+				if (this->_controller->buyCD(operations))
+				{
+					std::cout << "You successfully complete your order!\n";
+				}
+
+				else
+				{
+					std::cout << "Something went wrong, try again\n";
+				}
+
+				return;
+			}
+
+			else
+			{
+				std::cout << "There are some problems in your order, fix them and try again\n";
+			}
+		}
+
+		else if(!isCorrectCDcodeAndAmount(input))
+		{
+			std::cout << "incorrect format, try again\n";
+			canMakeOrder = false;
+		}
+
+		else
+		{
+			std::istringstream iss(input);
+			int CD_code, quantity;
+			char delimiter;
+			iss >> CD_code >> delimiter >> quantity;
+
+			if (this->_controller->canBuyCD(CD_code))
+			{
+				if (this->_controller->canBuyCD(CD_code, quantity))
+				{
+					orders.push_back(std::pair<int, int>(CD_code, quantity));
+					canMakeOrder = true;
+				}
+
+				else
+				{
+					std::cout << "There is not anough CDs in stock, maybe try less amount\n";
+					canMakeOrder = false;
+				}
+			}
+
+			else
+			{
+				std::cout << "There isn't such disk in stock, try another option\n";
+				canMakeOrder = false;
+			}
+		}
+	}
 }

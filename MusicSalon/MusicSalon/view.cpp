@@ -163,6 +163,23 @@ bool View::isCorrectCDCode(const std::string& str) {
 	return (number > 0);
 }
 
+/*bool View::isCorrectCDsAmount(const std::string& amount)
+{
+	if (amount.empty()) {
+		return false;
+	}
+	for (char ch : amount) {
+		if (!std::isdigit(ch)) {
+			return false;
+		}
+	}
+
+	int number;
+	std::istringstream iss(amount);
+	iss >> number;
+	return (number > 0);
+}*/
+
 bool View::isValidDate(const std::string& dateStr) {
 	std::regex pattern("^\\d{4}-\\d{2}-\\d{2}$");
 
@@ -210,6 +227,19 @@ int View::compareDates(const std::string& date1, const std::string& date2) {
 	if (day1 > day2) return 1;
 
 	return 0;
+}
+
+std::string View::getCurrentDate() 
+{
+	std::time_t currentTime = std::time(nullptr);
+	struct std::tm* localTime = std::localtime(&currentTime);
+
+	std::stringstream ss;
+	ss << std::setfill('0') << std::setw(4) << localTime->tm_year + 1900 << ":"
+		<< std::setw(2) << localTime->tm_mon + 1 << ":"
+		<< std::setw(2) << localTime->tm_mday;
+
+	return ss.str();
 }
 
 void View::start()
