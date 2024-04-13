@@ -18,9 +18,8 @@ Controller::~Controller()
 
 bool Controller::addModel(std::string dbFileName)
 {
-	this->_dbFileName = dbFileName;
 	this->_model = new Model();
-	if (this->_model->addDatabase(this->_dbFileName))
+	if (this->_model->addDatabase(dbFileName))
 	{
 		return true;
 	}

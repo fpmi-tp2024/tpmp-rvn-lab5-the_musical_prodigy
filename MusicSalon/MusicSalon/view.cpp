@@ -53,17 +53,10 @@ void View::addAdminMenuCommands()
 }
 
 
-bool View::addController(std::string dbFileName)
+void View::addController(Controller* controller)
 {
-	this->_dbFileName = dbFileName;
-	this->_controller = new Controller();
-	if (this->_controller->addModel(dbFileName))
-	{
 		addStartMenuCommands();
 
-		return true;
-	}
-	return false;
 }
 
 void View::printGreeting()
@@ -81,11 +74,6 @@ void View::printStartMenu()
 
 	std::cout << "quit:\tquit\n";
 	std::cout << "use 'q' command to quit from all commands\n";
-}
-
-void View::setUser(User* user)
-{
-	this->_user = user;
 }
 
 void View::printComposition(const MusicalComposition& composition)
@@ -184,7 +172,7 @@ bool View::isValidDate(const std::string& dateStr) {
 	std::regex pattern("^\\d{4}-\\d{2}-\\d{2}$");
 
 	if (!std::regex_match(dateStr, pattern)) {
-		return false; // Неверный формат даты
+		return false;
 	}
 
 	int year, month, day;

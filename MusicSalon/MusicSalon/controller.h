@@ -12,7 +12,6 @@ class Controller
 {
 private:
 	Model* _model;
-	std::string _dbFileName;
 
 public:
 	Controller();

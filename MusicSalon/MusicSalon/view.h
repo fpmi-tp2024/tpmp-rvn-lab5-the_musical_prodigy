@@ -22,7 +22,6 @@ class View
 {
 private:
 	Controller* _controller;
-	std::string _dbFileName;
 	User* _user;
 	std::unordered_map < std::string, Command*> _startMenuCommands;
 	std::unordered_map <std::string, Command*> _customerMenuCommands;
@@ -34,7 +33,7 @@ public:
 	View();
 	~View();
 	Controller* getController();
-	bool addController(std::string dbFileName);
+	void addController(Controller* controller);
 	void printGreeting();
 	void printStartMenu();
 	void printComposition(const MusicalComposition& composition);
