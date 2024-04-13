@@ -60,6 +60,14 @@ public:
 	void execute() override;
 };
 
+class QuitCommand : public Command
+{
+public:
+	QuitCommand(View * view, Controller * controller);
+	~QuitCommand();
+	void execute() override;
+}
+
 class AvailableCDsInfoCommand : public Command
 {
 public:

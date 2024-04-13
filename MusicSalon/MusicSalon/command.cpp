@@ -221,6 +221,23 @@ void LogOutCommand::execute()
 	this->_view->_user = nullptr;
 }
 
+// QuitCommand
+
+QuitCommand::QuitCommand(View* view, Controller* controller)
+{
+	setDescription("quit the program");
+}
+
+QuitCommand::~QuitCommand()
+{
+
+}
+
+void execute()
+{
+	std::cout << "Goodbye!\n";
+}
+
 //AvailableCDsInfoCommand
 
 AvailableCDsInfoCommand::AvailableCDsInfoCommand(View* view, Controller* controller) : Command(view, controller)

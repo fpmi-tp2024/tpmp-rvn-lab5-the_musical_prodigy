@@ -23,6 +23,7 @@ class View
 private:
 	Controller* _controller;
 	User* _user;
+	static const std::string qiutCommand;
 	std::unordered_map < std::string, Command*> _startMenuCommands;
 	std::unordered_map <std::string, Command*> _customerMenuCommands;
 	std::unordered_map<std::string, Command*> _adminMenuCommands;

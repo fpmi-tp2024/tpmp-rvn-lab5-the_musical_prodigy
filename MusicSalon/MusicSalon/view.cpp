@@ -3,6 +3,8 @@
 #include "view.h"
 #include "command.h"
 
+const std::string View::qiutCommand = "quit";
+
 View::View()
 {
 	this->_user = nullptr;
