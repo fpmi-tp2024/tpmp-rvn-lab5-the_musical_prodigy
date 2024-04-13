@@ -10,6 +10,7 @@
 #include <vector>
 #include <sstream>
 
+class View;
 
 class Command
 {

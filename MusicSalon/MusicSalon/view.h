@@ -8,6 +8,7 @@
 #include "CD.h"
 #include "MusicalComposition.h"
 #include "Operation.h"
+#include "command.h"
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -15,6 +16,8 @@
 #include <chrono>
 #include <ctime>
 #include <iomanip>
+
+class Command;
 
 class View
 {

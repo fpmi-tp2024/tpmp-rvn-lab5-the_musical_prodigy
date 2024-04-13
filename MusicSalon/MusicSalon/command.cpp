@@ -249,6 +249,7 @@ LogOutCommand::~LogOutCommand()
 void LogOutCommand::execute()
 {
 	this->_view->_user = nullptr;
+	std::cout << "You have successfully logged out\n";
 }
 
 // QuitCommand
@@ -263,7 +264,7 @@ QuitCommand::~QuitCommand()
 
 }
 
-void execute()
+void QuitCommand::execute()
 {
 	std::cout << "Goodbye!\n";
 }
@@ -443,8 +444,8 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 		return;
 	}
 
-	std::cout << "Sold CDs amount by CD code: " << CD_code << " , start date: " << startPeriod;
-    std::cout << " , end period: " << endPeriod << ":\n";
+	std::cout << "Sold CDs amount by CD code: " << CD_code << ", start date: " << startPeriod;
+    std::cout << ", end period: " << endPeriod << ":\n";
 	std::cout << soldCDsAmount << "\n";
 }
 

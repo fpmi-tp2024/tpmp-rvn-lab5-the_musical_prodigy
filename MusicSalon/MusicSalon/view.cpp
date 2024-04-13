@@ -8,6 +8,7 @@ const std::string View::quitCommand = "quit";
 View::View()
 {
 	this->_user = nullptr;
+	this->_controller = nullptr;
 }
 
 View::~View()
@@ -47,27 +48,28 @@ void View::addStartMenuCommands()
 
 void View::addCustomerMenuCommands()
 {
-	this->_startMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
-    this->_startMenuCommands["1"] = new AvailableCDsInfoCommand(this, this->getController());
-	this->_startMenuCommands["2"] = new BestSellingCDInfoCommand(this, this->getController());
-	this->_startMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
-	this->_startMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
-	this->_startMenuCommands["buy"] = new BuyCDCommand(this, this->getController());
-	this->_startMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
+	this->_customerMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
+    this->_customerMenuCommands["1"] = new AvailableCDsInfoCommand(this, this->getController());
+	this->_customerMenuCommands["2"] = new BestSellingCDInfoCommand(this, this->getController());
+	this->_customerMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
+	this->_customerMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
+	this->_customerMenuCommands["buy"] = new BuyCDCommand(this, this->getController());
+	this->_customerMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
 void View::addAdminMenuCommands()
 {
-	this->_startMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
-	this->_startMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
+	this->_adminMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
+	this->_adminMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
 
 void View::addController(Controller* controller)
 {
-		addStartMenuCommands();
-		addCustomerMenuCommands();
-		addAdminMenuCommands();
+	this->_controller = controller;
+	addStartMenuCommands();
+    addCustomerMenuCommands();
+	addAdminMenuCommands();
 }
 
 void View::printGreeting()
@@ -212,12 +214,13 @@ bool View::isValidDate(const std::string& dateStr) {
 	}
 
 	int year, month, day;
-	sscanf(dateStr.c_str(), "%d-%d-%d", &year, &month, &day);
+	sscanf_s(dateStr.c_str(), "%d-%d-%d", &year, &month, &day);
 
 	auto now = std::chrono::system_clock::now();
 	time_t nowTime = std::chrono::system_clock::to_time_t(now);
-	struct tm* nowTM = std::localtime(&nowTime);
-	int currentYear = nowTM->tm_year + 1900;
+	struct tm nowTM;
+	localtime_s(&nowTM, &nowTime);
+	int currentYear = nowTM.tm_year + 1900;
 
 	if (year < 2000 || year > currentYear) {
 		return false;
@@ -236,10 +239,10 @@ bool View::isValidDate(const std::string& dateStr) {
 
 int View::compareDates(const std::string& date1, const std::string& date2) {
 	int year1, month1, day1;
-	sscanf(date1.c_str(), "%d-%d-%d", &year1, &month1, &day1);
+	sscanf_s(date1.c_str(), "%d-%d-%d", &year1, &month1, &day1);
 
 	int year2, month2, day2;
-	sscanf(date2.c_str(), "%d-%d-%d", &year2, &month2, &day2);
+	sscanf_s(date2.c_str(), "%d-%d-%d", &year2, &month2, &day2);
 
 	if (year1 < year2) return -1;
 	if (year1 > year2) return 1;
@@ -253,15 +256,17 @@ int View::compareDates(const std::string& date1, const std::string& date2) {
 	return 0;
 }
 
-std::string View::getCurrentDate() 
+std::string View::getCurrentDate()
 {
-	std::time_t currentTime = std::time(nullptr);
-	struct std::tm* localTime = std::localtime(&currentTime);
+	std::time_t currentTime;
+	std::tm localTime;
+	std::time(&currentTime);
+	localtime_s(&localTime, &currentTime);
 
 	std::stringstream ss;
-	ss << std::setfill('0') << std::setw(4) << localTime->tm_year + 1900 << ":"
-		<< std::setw(2) << localTime->tm_mon + 1 << ":"
-		<< std::setw(2) << localTime->tm_mday;
+	ss << std::setfill('0') << std::setw(4) << localTime.tm_year + 1900 << ":"
+		<< std::setw(2) << localTime.tm_mon + 1 << ":"
+		<< std::setw(2) << localTime.tm_mday;
 
 	return ss.str();
 }
@@ -275,6 +280,8 @@ void View::start()
 	while (userCommand != View::quitCommand)
 	{
 		std::getline(std::cin, userCommand);
+		
+		std::cout << "userCommand: " << userCommand << "\n";
 		
 		if (this->_user == nullptr)
 		{
