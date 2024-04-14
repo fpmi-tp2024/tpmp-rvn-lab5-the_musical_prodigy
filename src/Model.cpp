@@ -26,16 +26,12 @@ void Model::setDBName(std::string& name)
 bool Model::addDatabase(std::string dbFileName) {
     try
     {
-        // Open a database file
         SQLite::Database    db(dbFileName, SQLITE_OPEN_READONLY);
 
-        // Compile a SQL query, containing one parameter (index 1)
         SQLite::Statement   query(db, "SELECT * FROM AUTHOR");
 
-        // Loop to execute the query step by step, to get rows of result
         while (query.executeStep())
         {
-            // Demonstrate how to get some typed column value
             int         id = query.getColumn(0);
             const char* value = query.getColumn(1);
             std::cout << "row: " << id << ", " << value << std::endl;
