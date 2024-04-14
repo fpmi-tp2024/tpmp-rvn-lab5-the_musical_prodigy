@@ -7,5 +7,11 @@ int main()
 {
     Model* model = new Model();
     model->addDatabase("music_salon_v2.0.db");
+    User user(USER, "user3", "abccdb");
+    User user2(ADMIN, "stasN", "987123");
+    User user3(ADMIN, "stasN", "9871234");
+    std::cout << model->hasUser(user2);
+    std::cout << model->hasUserWithLogin("stasN");
+    std::cout<<model->addNewUser(user3);
     return 0;
 }

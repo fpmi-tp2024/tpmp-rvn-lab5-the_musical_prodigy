@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-enum class UserRole {
+enum UserRole {
     ADMIN = 1,
     USER
 };

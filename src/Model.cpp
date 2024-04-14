@@ -26,16 +26,7 @@ void Model::setDBName(std::string& name)
 bool Model::addDatabase(std::string dbFileName) {
     try
     {
-        SQLite::Database    db(dbFileName, SQLITE_OPEN_READONLY);
-
-        SQLite::Statement   query(db, "SELECT * FROM AUTHOR");
-
-        while (query.executeStep())
-        {
-            int         id = query.getColumn(0);
-            const char* value = query.getColumn(1);
-            std::cout << "row: " << id << ", " << value << std::endl;
-        }
+        this->db = new SQLite::Database(dbFileName, SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE);
     }
     catch (std::exception& e)
     {
@@ -48,17 +39,70 @@ bool Model::addDatabase(std::string dbFileName) {
 
 
 bool Model::addNewUser(User& user) {
-    User newUser = user;
+    std::string login = user.getUsername();
+    if (!hasUserWithLogin(login))
+    {
+        UserRole role = user.getUserRoleId();
+        std::string pass = user.getPassword();
+        try {
+            SQLite::Statement query(*db, "INSERT INTO USER(user_role_id, login, password) VALUES(?, ?, ?)");
+            query.bind(1, role);
+            query.bind(2, login);
+            query.bind(3, pass);
+            query.exec();
+        }
+        catch (std::exception& e)
+        {
+            std::cout << "exception: " << e.what() << std::endl;
+            return false;
+        }
+        return true;
+    }
     return false;
 }
 bool Model::hasUser(User& user) {
-    User newUser = user;
-    return false;
+    UserRole role = user.getUserRoleId();
+    std::string pass = user.getPassword();
+    std::string login = user.getUsername();
+    try {
+        SQLite::Statement query(*db, "SELECT user_id FROM USER WHERE user_role_id = ? AND login = ? AND password = ?");
+        query.bind(1, role);
+        query.bind(2, login);
+        query.bind(3, pass);
+        int count = 0;
+        while (query.executeStep())
+        {
+            count++;
+        }
+        if (count == 0)
+            return false;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+        return false;
+    }
+    return true;
 }
 bool Model::hasUserWithLogin(std::string login)
 {
-    std::string newLogin = login;
-    return false;
+    try {
+        SQLite::Statement query(*db, "SELECT user_id FROM USER WHERE login = ?");
+        query.bind(1, login);
+        int count = 0;
+        while (query.executeStep())
+        {
+            count++;
+        }
+        if (count == 0)
+            return false;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+        return false;
+    }
+    return true;
 }
 bool Model::canBuyCD(int CDCode, int quantity)
 {

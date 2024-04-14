@@ -11,6 +11,7 @@ class Model
 {
 private:
     std::string dbFileName;
+    SQLite::Database *db = nullptr;
 public:
     Model();
     Model(std::string dbFileName);
