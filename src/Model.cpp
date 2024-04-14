@@ -106,9 +106,25 @@ bool Model::hasUserWithLogin(std::string login)
 }
 bool Model::canBuyCD(int CDCode, int quantity)
 {
-    int code = CDCode;
-    int newQuantity = quantity;
-    return false;
+    try {
+        SQLite::Statement query(*db, "SELECT amount_in_stock FROM CD WHERE CD_id = ?");
+        query.bind(1, CDCode);
+        int count = 0;
+        int amount = 0;
+        while (query.executeStep())
+        {
+            count++;
+            amount = query.getColumn(0);
+        }
+        if (count == 0 || quantity > amount)
+            return false;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+        return false;
+    }
+    return true;
 }
 bool Model::buyCD(const std::vector<Operation>& operations)
 {
@@ -118,6 +134,24 @@ bool Model::buyCD(const std::vector<Operation>& operations)
 
 std::vector<CD> Model::availableCDsInfo() {
     std::vector<CD> result;
+    try {
+        SQLite::Statement query(*db, "SELECT CD_id, manufacture_year, manufacturer, amount_in_stock, price FROM CD WHERE amount_in_stock > 0");
+        while (query.executeStep())
+        {
+            CD cd;
+            cd.setCDCode(query.getColumn(0));
+            cd.setManufactureYear(query.getColumn(1));
+            std::string manufacturer = query.getColumn(2);
+            cd.setManufacturer(manufacturer);
+            cd.setAmounInStock(query.getColumn(3));
+            cd.setPrice(query.getColumn(4));
+            result.push_back(cd);
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+    }
     return result;
 }
 CD Model::bestSellingCDInfo() {
@@ -144,6 +178,7 @@ std::vector<std::string> Model::getSoldCDsNumberAndProfitByEachAuthor() {
 bool Model::addCD(int CDCode, int quantity) {
     int code = CDCode;
     int newQuantity = quantity;
+
     return false;
 }
 std::vector<std::vector<std::string>> Model::getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod) {
