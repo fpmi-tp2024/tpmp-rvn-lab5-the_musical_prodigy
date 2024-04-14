@@ -154,8 +154,45 @@ std::vector<CD> Model::availableCDsInfo() {
     }
     return result;
 }
+int Model::getBestSellingCDId()
+{
+    int id = 0;
+    try {
+        SQLite::Statement query(*db, "SELECT cd_id, SUM(quantity) AS sum FROM OPERATION_CDs INNER JOIN OPERATION ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE operation_type_id = 1 GROUP BY cd_id ORDER BY sum DESC LIMIT 1");
+        while (query.executeStep())
+        {
+            id = query.getColumn(0);
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+    }
+    return id;
+}
+
 CD Model::bestSellingCDInfo() {
     CD cd;
+    try {
+        
+        SQLite::Statement query(*db, "SELECT CD_id, manufacture_year, manufacturer, amount_in_stock, price FROM CD WHERE CD_id = ?");
+        query.bind(1, getBestSellingCDId());
+        while (query.executeStep())
+        {
+            cd.setCDCode(query.getColumn(0));
+            cd.setManufactureYear(query.getColumn(1));
+            std::string manufacturer = query.getColumn(2);
+            cd.setManufacturer(manufacturer);
+            cd.setAmounInStock(query.getColumn(3));
+            cd.setPrice(query.getColumn(4));
+        }
+
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+    }
+
     return cd;
 }
 int Model::getMostPopularSingerSoldCDsAmount() {

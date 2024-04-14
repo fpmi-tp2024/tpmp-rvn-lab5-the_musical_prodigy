@@ -17,6 +17,7 @@ int main()
     std::cout << model->canBuyCD(1, 90) << std::endl;
     std::cout << model->canBuyCD(1, 88) << std::endl;
     std::cout << model->canBuyCD(4, 8) << std::endl;*/
-    std::cout << model->availableCDsInfo().size();
+    //std::cout << model->availableCDsInfo().size();
+    std::cout << model->bestSellingCDInfo().getCDCode();
     return 0;
 }

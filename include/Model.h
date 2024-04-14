@@ -12,6 +12,7 @@ class Model
 private:
     std::string dbFileName;
     SQLite::Database *db = nullptr;
+    int getBestSellingCDId();
 public:
     Model();
     Model(std::string dbFileName);
