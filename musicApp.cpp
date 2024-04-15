@@ -18,6 +18,11 @@ int main()
     std::cout << model->canBuyCD(1, 88) << std::endl;
     std::cout << model->canBuyCD(4, 8) << std::endl;*/
     //std::cout << model->availableCDsInfo().size();
-    std::cout << model->bestSellingCDInfo().getCDCode();
+    //std::cout << model->bestSellingCDInfo().getCDCode();
+    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-18") << std::endl;
+    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-03") << std::endl;
+    std::cout << model->getSoldCDsAmount(3, "2024-01-01", "2024-01-19") << std::endl;
+    std::cout << model->getSoldCDsAmount(3, "2024-01-19", "2024-01-20") << std::endl;
+
     return 0;
 }

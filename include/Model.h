@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <sstream>
+#include <iomanip>
 #include <sqlite3.h>
 #include <SQLiteCpp/SQLiteCpp.h>
 #include "../include/User.h"
@@ -13,6 +16,7 @@ private:
     std::string dbFileName;
     SQLite::Database *db = nullptr;
     int getBestSellingCDId();
+    bool isDateInPeriod(const std::string& date, const std::string& startDate, const std::string& endDate);
 public:
     Model();
     Model(std::string dbFileName);
@@ -24,6 +28,7 @@ public:
     bool hasUser(User& user);
     bool hasUserWithLogin(std::string login);
     bool canBuyCD(int CDCode, int quantity);
+    bool canBuyCD(int CDCode);
     bool buyCD(const std::vector<Operation>& operations);
     std::vector<CD> availableCDsInfo();
     CD bestSellingCDInfo();
