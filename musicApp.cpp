@@ -23,6 +23,15 @@ int main()
     std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-03") << std::endl;
     std::cout << model->getSoldCDsAmount(3, "2024-01-01", "2024-01-19") << std::endl;
     std::cout << model->getSoldCDsAmount(3, "2024-01-19", "2024-01-20") << std::endl;
+    std::vector<std::vector<std::string>> res = model->getSoldAndLeftCDSortedDescDiff();
+    for (int i = 0; i < res.size(); i++)
+    {
+        for (int j = 0; j < res[0].size(); j++)
+        {
+            std::cout << res[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 
     return 0;
 }

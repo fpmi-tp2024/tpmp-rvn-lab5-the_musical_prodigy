@@ -276,7 +276,37 @@ int Model::getSoldCDsAmount(int CDCode, std::string startPeriod, std::string end
     return 0;
 }
 std::vector<std::vector<std::string>> Model::getSoldAndLeftCDSortedDescDiff() {
+    // Returns vector of vectors <CD_code, sold_amount, amount_in_stock, difference_between_amount_in_stock_and_sold>
     std::vector<std::vector<std::string>> result;
+    std::vector<std::string> temp;
+    std::string longQuery = "SELECT CD.CD_id, SUM(quantity) - amount_in_stock AS sold, amount_in_stock, ABS(2 * amount_in_stock - SUM(quantity)) AS diff";
+    longQuery += " FROM OPERATION_CDs INNER JOIN OPERATION ON OPERATION.operation_id = OPERATION_CDs.operation_id";
+    longQuery += " INNER JOIN CD ON CD.CD_id = OPERATION_CDs.CD_id";
+    longQuery += " WHERE operation_type_id = 2 GROUP BY CD.CD_id ORDER BY diff DESC";
+    try {
+        SQLite::Statement query(*db, longQuery.c_str());
+        int code = 0;
+        int sold = 0;
+        int inStock = 0;
+        int diff = 0;
+        while (query.executeStep())
+        {
+            code = query.getColumn(0);
+            sold = query.getColumn(1);
+            inStock = query.getColumn(2);
+            diff = query.getColumn(3);
+            temp.push_back(std::to_string(code));
+            temp.push_back(std::to_string(sold));
+            temp.push_back(std::to_string(inStock));
+            temp.push_back(std::to_string(diff));
+            result.push_back(temp);
+            temp.clear();
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+    }
     return result;
 }
 std::vector<std::string> Model::getSoldCDsNumberAndProfitByEachAuthor() {
