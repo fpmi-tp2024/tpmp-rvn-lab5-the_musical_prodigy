@@ -216,8 +216,27 @@ CD Model::bestSellingCDInfo() {
     return cd;
 }
 int Model::getMostPopularSingerSoldCDsAmount() {
+    std::string longQuery = "SELECT performer_id, SUM(quantity) AS amount FROM (SELECT DISTINCT PERFORMER.performer_id, CD_code, OPERATION.operation_type_id, quantity, price FROM PERFORMER";
+    longQuery += " INNER JOIN m2m_MUSICAL_COMPOSITION_PERFORMER ON m2m_MUSICAL_COMPOSITION_PERFORMER.performer_id = PERFORMER.performer_id";
+    longQuery += " INNER JOIN m2m_MUSICAL_COMPOSITION_CD ON m2m_MUSICAL_COMPOSITION_CD.composition_id = m2m_MUSICAL_COMPOSITION_PERFORMER.composition_id";
+    longQuery += " INNER JOIN OPERATION_CDs ON OPERATION_CDs.CD_id = m2m_MUSICAL_COMPOSITION_CD.CD_code";
+    longQuery += " INNER JOIN OPERATION ON OPERATION.operation_id = OPERATION_CDs.operation_id";
+    longQuery += " INNER JOIN CD on CD.CD_id = OPERATION_CDs.CD_id";
+    longQuery += " WHERE operation_type_id = 1) AS table1 GROUP BY performer_id ORDER BY amount DESC, performer_id LIMIT 1";
+    int sold = 0;
+    try {
+        SQLite::Statement query(*db, longQuery);
 
-    return 0;
+        while (query.executeStep())
+        {
+            sold = query.getColumn(1);
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+    }
+    return sold;
 }
 
 int Model::getSoldCDsAmount(int CDCode, std::string startPeriod, std::string endPeriod) {
@@ -238,7 +257,7 @@ std::vector<std::vector<std::string>> Model::getSoldAndLeftCDSortedDescDiff() {
     longQuery += " INNER JOIN CD ON CD.CD_id = OPERATION_CDs.CD_id";
     longQuery += " WHERE operation_type_id = 2 GROUP BY CD.CD_id ORDER BY diff DESC";
     try {
-        SQLite::Statement query(*db, longQuery.c_str());
+        SQLite::Statement query(*db, longQuery);
         int code = 0;
         int sold = 0;
         int inStock = 0;

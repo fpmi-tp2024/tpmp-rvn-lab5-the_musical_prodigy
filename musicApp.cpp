@@ -50,6 +50,7 @@ int main()
         std::cout << res2[i]<< " ";
     }
     std::cout << std::endl;
-    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-02");
+    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-02") << std::endl;
+    std::cout << model->getMostPopularSingerSoldCDsAmount() << std::endl;
     return 0;
 }
