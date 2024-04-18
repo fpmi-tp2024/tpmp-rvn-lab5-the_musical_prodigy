@@ -17,6 +17,8 @@ private:
     SQLite::Database *db = nullptr;
     int getBestSellingCDId();
     bool isDateInPeriod(const std::string& date, const std::string& startDate, const std::string& endDate);
+    std::vector<int> getReceivedAmount(const std::string& startDate, const std::string& endDate);
+    std::vector<std::vector<int>> getSoldAmount(const std::string& startDate, const std::string& endDate);
 public:
     Model();
     Model(std::string dbFileName);
@@ -37,6 +39,6 @@ public:
     std::vector<std::vector<std::string>> getSoldAndLeftCDSortedDescDiff();
     std::vector<std::vector<std::string>> getSoldCDsNumberAndProfitByEachAuthor();
     bool addCD(int CDCode, int quantity);
-    std::vector<std::vector<std::string>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
+    std::vector<std::vector<int>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
     std::vector<std::vector<std::string>> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod);
 };

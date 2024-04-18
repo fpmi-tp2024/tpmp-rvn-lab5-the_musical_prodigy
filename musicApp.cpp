@@ -32,7 +32,7 @@ int main()
         }
         std::cout << std::endl;
     }*/
-    std::vector<std::vector<std::string>> res = model->getSoldCDsNumberAndProfitByEachAuthor();
+    std::vector<std::vector<int>> res = model->getReceivedAndSoldCDAmountByEachCD("2024-01-01", "2024-01-18");
     for (int i = 0; i < res.size(); i++)
     {
         for (int j = 0; j < res[0].size(); j++)

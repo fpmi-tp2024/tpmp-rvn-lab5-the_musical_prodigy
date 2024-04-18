@@ -351,12 +351,86 @@ bool Model::addCD(int CDCode, int quantity) {
 
     return false;
 }
-std::vector<std::vector<std::string>> Model::getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod) {
-    std::string start = startPeriod;
-    std::string end = endPeriod;
-    std::vector<std::vector<std::string>> result;
+
+std::vector<std::vector<int>> Model::getSoldAmount(const std::string& startDate, const std::string& endDate) 
+{
+    std::vector<std::vector<int>>result;
+    std::vector<int> temp;
+    //std::string start = "\"";
+    //start += startDate;
+    //start += "\"";
+    //std::string end = "\"";
+    //end += endDate;
+    //end += "\"";
+    try {
+        std::string longQuery = "SELECT CD_id, SUM(quantity) FROM OPERATION INNER JOIN OPERATION_CDs";
+        longQuery += " ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE date BETWEEN ? AND ? AND operation_type_id = 1 GROUP BY CD_id ORDER BY CD_id";
+        SQLite::Statement query(*db, longQuery);
+        query.bind(1, startDate);
+        query.bind(2, endDate);
+        int amount = 0;
+        int id = 0;
+        while (query.executeStep())
+        {
+            id = query.getColumn(0);
+            amount = query.getColumn(1);
+            temp.push_back(id);
+            temp.push_back(amount);
+            result.push_back(temp);
+            temp.clear();
+        }
+        return result;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+        return result;
+    }
     return result;
 }
+
+std::vector<int> Model::getReceivedAmount(const std::string& startDate, const std::string& endDate)
+{
+    std::vector<int>result;
+    //std::string start = "\"";
+    //start += startDate;
+    //start += "\"";
+    //std::string end = "\"";
+    //end += endDate;
+    //end += "\"";
+    try {
+        std::string longQuery = "SELECT CD_id, SUM(quantity) FROM OPERATION INNER JOIN OPERATION_CDs";
+        longQuery += " ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE date BETWEEN ? AND ? AND operation_type_id = 2 GROUP BY CD_id ORDER BY CD_id";
+        SQLite::Statement query(*db, longQuery);
+        query.bind(1, startDate);
+        query.bind(2, endDate);
+        int amount = 0;
+        while (query.executeStep())
+        {
+            amount = query.getColumn(1);
+            result.push_back(amount);
+        }
+        return result;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+        return result;
+    }
+    return result;
+}
+
+std::vector<std::vector<int>> Model::getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod) {
+    //returns 3 columns: CD_id, Sold amount, Received amount
+    std::vector<std::vector<int>> result = getSoldAmount(startPeriod, endPeriod);
+    std::vector<int> received = getReceivedAmount(startPeriod, endPeriod);
+    for (int i = 0; i < result.size(); i++)
+    {
+        result[i].push_back(received[i]);
+    }
+    return result;
+}
+
 std::vector<std::vector<std::string>> Model::getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod) {
     int code = CDCode;
     std::string start = startPeriod;
