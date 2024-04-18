@@ -30,14 +30,13 @@ public:
     bool hasUserWithLogin(std::string login);
     bool canBuyCD(int CDCode, int quantity);
     bool canBuyCD(int CDCode);
-    bool buyCD(const std::vector<Operation>& operations);
     std::vector<CD> availableCDsInfo();
     CD bestSellingCDInfo();
     int getMostPopularSingerSoldCDsAmount();
     int getSoldCDsAmount(int CDCode, std::string startPeriod, std::string endPeriod);
     std::vector<std::vector<std::string>> getSoldAndLeftCDSortedDescDiff();
     std::vector<std::vector<std::string>> getSoldCDsNumberAndProfitByEachAuthor();
-    bool addCD(int CDCode, int quantity);
+    bool addOrBuyCD(const std::vector<Operation>& operations);
     std::vector<std::vector<int>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
     std::vector<double> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod);
 };

@@ -146,11 +146,6 @@ bool Model::canBuyCD(int CDCode, int quantity)
     }
     return true;
 }
-bool Model::buyCD(const std::vector<Operation>& operations)
-{
-    const std::vector<Operation> ops = operations;
-    return false;
-}
 
 std::vector<CD> Model::availableCDsInfo() {
     std::vector<CD> result;
@@ -318,13 +313,6 @@ std::vector<std::vector<std::string>> Model::getSoldCDsNumberAndProfitByEachAuth
     return result;
 }
 
-bool Model::addCD(int CDCode, int quantity) {
-    int code = CDCode;
-    int newQuantity = quantity;
-
-    return false;
-}
-
 std::vector<std::vector<int>> Model::getSoldAmount(const std::string& startDate, const std::string& endDate) 
 {
     std::vector<std::vector<int>>result;
@@ -420,4 +408,58 @@ std::vector<double> Model::getSoldCDsAmountAndProfit(int CDCode, std::string sta
         return result;
     }
     return result;
+}
+
+bool Model::addOrBuyCD(const std::vector<Operation>& operations) 
+{
+    std::string operationDate;
+    OperationCode operationCode;
+    int CDCode;
+    int numberOfCDs;
+    int delta = 0;
+    std::string insertOperationQuery = "INSERT INTO OPERATION(operation_type_id, date) VALUES(?, ?)";
+    std::string insertOperationCDQuery = "INSERT INTO OPERATION_CDs(CD_id, quantity) VALUES(?, ?)";
+    std::string updateAmountQuery = "UPDATE CD SET amount_in_stock = amount_in_stock + ? WHERE CD_id = ?";
+    for (int i = 0; i < operations.size(); i++)
+    {
+        operationCode = operations[i].getOperationCode();
+        CDCode = operations[i].getCDCode();
+        numberOfCDs = operations[i].getNumberOfCDs();
+        if (operationCode == OperationCode::SELL && !canBuyCD(CDCode, numberOfCDs))
+        {
+            return false;
+        }
+    }
+    for (int i = 0; i < operations.size(); i++)
+    {
+        operationDate = operations[i].getOperationDate();
+        operationCode = operations[i].getOperationCode();
+        CDCode = operations[i].getCDCode();
+        numberOfCDs = operations[i].getNumberOfCDs();
+
+        if (operationCode == OperationCode::SELL)
+            delta = -numberOfCDs;
+        else if(operationCode == OperationCode::RECEIVE)
+            delta = numberOfCDs;
+        try {
+            SQLite::Statement queryInsertOperation(*db, insertOperationQuery);
+            SQLite::Statement queryInsertOperationCD(*db, insertOperationCDQuery);
+            SQLite::Statement queryUpdateAmount(*db, updateAmountQuery);
+            queryInsertOperation.bind(1, (int)operationCode);
+            queryInsertOperation.bind(2, operationDate);
+            queryInsertOperationCD.bind(1, CDCode);
+            queryInsertOperationCD.bind(2, numberOfCDs);
+            queryUpdateAmount.bind(1, delta);
+            queryUpdateAmount.bind(2, CDCode);
+            queryInsertOperation.exec();
+            queryInsertOperationCD.exec();
+            queryUpdateAmount.exec();
+        }
+        catch (std::exception& e)
+        {
+            std::cout << "exception: " << e.what() << std::endl;
+            return false;
+        }
+    }
+    return true;
 }

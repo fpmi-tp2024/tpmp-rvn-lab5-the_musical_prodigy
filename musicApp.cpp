@@ -52,5 +52,12 @@ int main()
     std::cout << std::endl;
     std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-02") << std::endl;
     std::cout << model->getMostPopularSingerSoldCDsAmount() << std::endl;
+    Operation op(OperationCode::SELL, 1, "2024-04-18", 100);
+    Operation op2(OperationCode::SELL, 3, "2024-04-18", 10);
+    std::vector<Operation> vect;
+    vect.push_back(op);
+    vect.push_back(op2);
+
+    std::cout << model->addOrBuyCD(vect);
     return 0;
 }
