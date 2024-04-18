@@ -356,12 +356,6 @@ std::vector<std::vector<int>> Model::getSoldAmount(const std::string& startDate,
 {
     std::vector<std::vector<int>>result;
     std::vector<int> temp;
-    //std::string start = "\"";
-    //start += startDate;
-    //start += "\"";
-    //std::string end = "\"";
-    //end += endDate;
-    //end += "\"";
     try {
         std::string longQuery = "SELECT CD_id, SUM(quantity) FROM OPERATION INNER JOIN OPERATION_CDs";
         longQuery += " ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE date BETWEEN ? AND ? AND operation_type_id = 1 GROUP BY CD_id ORDER BY CD_id";
@@ -392,12 +386,6 @@ std::vector<std::vector<int>> Model::getSoldAmount(const std::string& startDate,
 std::vector<int> Model::getReceivedAmount(const std::string& startDate, const std::string& endDate)
 {
     std::vector<int>result;
-    //std::string start = "\"";
-    //start += startDate;
-    //start += "\"";
-    //std::string end = "\"";
-    //end += endDate;
-    //end += "\"";
     try {
         std::string longQuery = "SELECT CD_id, SUM(quantity) FROM OPERATION INNER JOIN OPERATION_CDs";
         longQuery += " ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE date BETWEEN ? AND ? AND operation_type_id = 2 GROUP BY CD_id ORDER BY CD_id";
@@ -431,10 +419,32 @@ std::vector<std::vector<int>> Model::getReceivedAndSoldCDAmountByEachCD(std::str
     return result;
 }
 
-std::vector<std::vector<std::string>> Model::getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod) {
-    int code = CDCode;
-    std::string start = startPeriod;
-    std::string end = endPeriod;
-    std::vector<std::vector<std::string>> result;
+std::vector<double> Model::getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod) {
+    //returns <profit, amount_of_sold_CDs>
+    std::vector<double> result;
+    try {
+        std::string longQuery = "SELECT SUM(price * quantity), SUM(quantity) FROM OPERATION_CDs INNER JOIN CD ON CD.CD_id = OPERATION_CDs.CD_id";
+        longQuery += " INNER JOIN OPERATION ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE CD.CD_id = ? AND operation_type_id = 1";
+        longQuery += " AND date BETWEEN ? AND ?";
+        SQLite::Statement query(*db, longQuery);
+        query.bind(1, CDCode);
+        query.bind(2, startPeriod);
+        query.bind(3, endPeriod);
+        double amount = 0;
+        double profit = 0;
+        while (query.executeStep())
+        {
+            profit = query.getColumn(0);
+            amount = query.getColumn(1);
+            result.push_back(profit);
+            result.push_back(amount);
+        }
+        return result;
+    }
+    catch (std::exception& e)
+    {
+        std::cout << "exception: " << e.what() << std::endl;
+        return result;
+    }
     return result;
 }

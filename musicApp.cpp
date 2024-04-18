@@ -41,6 +41,13 @@ int main()
         }
         std::cout << std::endl;
     }
-
+    std::cout << std::endl;
+    std::vector<double> res2 = model->getSoldCDsAmountAndProfit(3, "2024-01-02", "2024-01-18");
+    for (int i = 0; i < res2.size(); i++)
+    {
+        std::cout << res2[i]<< " ";
+    }
+    std::cout << std::endl;
+        
     return 0;
 }

@@ -40,5 +40,5 @@ public:
     std::vector<std::vector<std::string>> getSoldCDsNumberAndProfitByEachAuthor();
     bool addCD(int CDCode, int quantity);
     std::vector<std::vector<int>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
-    std::vector<std::vector<std::string>> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod);
+    std::vector<double> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod);
 };
