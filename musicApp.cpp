@@ -34,7 +34,7 @@ int main()
         }
         std::cout << std::endl;
     }*/
-    std::vector<std::vector<int>> res = model->getReceivedAndSoldCDAmountByEachCD("2024-01-01", "2024-01-18");
+    std::vector<std::vector<int>> res = model->getReceivedAndSoldCDAmountByEachCD("2024-01-01", "2024-04-18");
     for (int i = 0; i < res.size(); i++)
     {
         for (int j = 0; j < res[0].size(); j++)
@@ -44,13 +44,13 @@ int main()
         std::cout << std::endl;
     }
     std::cout << std::endl;
-    std::vector<double> res2 = model->getSoldCDsAmountAndProfit(3, "2024-01-02", "2024-01-18");
+    std::vector<double> res2 = model->getSoldCDsAmountAndProfit(3, "2024-01-02", "2024-04-18");
     for (int i = 0; i < res2.size(); i++)
     {
         std::cout << res2[i]<< " ";
     }
     std::cout << std::endl;
-    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-02") << std::endl;
+    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-04-18") << std::endl;
     std::cout << model->getMostPopularSingerSoldCDsAmount() << std::endl;
     Operation op(OperationCode::SELL, 1, "2024-04-18", 100);
     Operation op2(OperationCode::SELL, 3, "2024-04-18", 10);
