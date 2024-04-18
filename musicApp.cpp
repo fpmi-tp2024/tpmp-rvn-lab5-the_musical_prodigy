@@ -3,6 +3,8 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include "include/Model.h"
 
+// TESTING GROUND
+
 int main()
 {
     Model* model = new Model();
@@ -48,6 +50,6 @@ int main()
         std::cout << res2[i]<< " ";
     }
     std::cout << std::endl;
-        
+    std::cout << model->getSoldCDsAmount(3, "2024-01-02", "2024-01-02");
     return 0;
 }

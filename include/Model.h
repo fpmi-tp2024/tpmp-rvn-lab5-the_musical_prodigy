@@ -16,7 +16,6 @@ private:
     std::string dbFileName;
     SQLite::Database *db = nullptr;
     int getBestSellingCDId();
-    bool isDateInPeriod(const std::string& date, const std::string& startDate, const std::string& endDate);
     std::vector<int> getReceivedAmount(const std::string& startDate, const std::string& endDate);
     std::vector<std::vector<int>> getSoldAmount(const std::string& startDate, const std::string& endDate);
 public:

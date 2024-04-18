@@ -219,59 +219,13 @@ int Model::getMostPopularSingerSoldCDsAmount() {
 
     return 0;
 }
-bool Model::isDateInPeriod(const std::string& date, const std::string& startDate, const std::string& endDate)
-{   
-    std::istringstream iss(date);
-    std::tm tm{};
-    iss >> std::get_time(&tm, "%Y-%m-%d");
-    if (iss.fail()) {
-        return false;
-    }
-
-    std::istringstream iss_start(startDate);
-    std::tm tm_start{};
-    iss_start >> std::get_time(&tm_start, "%Y-%m-%d");
-    if (iss_start.fail()) {
-        return false;
-    }
-
-    std::istringstream iss_end(endDate);
-    std::tm tm_end{};
-    iss_end >> std::get_time(&tm_end, "%Y-%m-%d");
-    if (iss_end.fail()) {
-        return false;
-    }
-
-    std::chrono::system_clock::time_point date_tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
-    std::chrono::system_clock::time_point start_tp = std::chrono::system_clock::from_time_t(std::mktime(&tm_start));
-    std::chrono::system_clock::time_point end_tp = std::chrono::system_clock::from_time_t(std::mktime(&tm_end));
-
-    return (date_tp >= start_tp && date_tp <= end_tp);
-}
 
 int Model::getSoldCDsAmount(int CDCode, std::string startPeriod, std::string endPeriod) {
-    try {
-        SQLite::Statement query(*db, "SELECT quantity, date FROM OPERATION_CDs INNER JOIN OPERATION ON OPERATION.operation_id = OPERATION_CDs.operation_id WHERE operation_type_id = 1 AND CD_id = ?");
-        query.bind(1, CDCode);
-        int count = 0;
-        int amount = 0;
-        std::string queryDate;
-        while (query.executeStep())
-        {
-            amount = query.getColumn(0);
-            const char* date = query.getColumn(1);
-            queryDate = date;
-            if (isDateInPeriod(queryDate, startPeriod, endPeriod))
-            {
-                count += amount;
-            }
-        }
-        return count;
-    }
-    catch (std::exception& e)
+    std::vector<std::vector<int>> result = getSoldAmount(startPeriod, endPeriod);
+    for (int i = 0; i < result.size(); i++)
     {
-        std::cout << "exception: " << e.what() << std::endl;
-        return -1;
+        if (result[i][0] == CDCode)
+            return result[i][1];
     }
     return 0;
 }
