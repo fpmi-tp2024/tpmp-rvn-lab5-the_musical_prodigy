@@ -591,6 +591,8 @@ void BuyCDCommand::execute()
 	}
 }
 
+// GetSoldAndLeftCDAmountSortedDescDiffCommand
+
 GetSoldAndLeftCDAmountSortedDescDiffCommand::GetSoldAndLeftCDAmountSortedDescDiffCommand(View* view, Controller* controller): Command(view, controller)
 {
 	setDescription("Get information about amount of sold and left CDs sorted by descending difference");
@@ -613,5 +615,30 @@ void GetSoldAndLeftCDAmountSortedDescDiffCommand::execute()
 			std::cout << info[i][j] << "\t";
 		}
 		std::cout << info[i][3] << "\n";
+	}
+}
+
+// GetSoldCDsNumberAndProfitByEachAuthorCommand
+
+GetSoldCDsNumberAndProfitByEachAuthorCommand::GetSoldCDsNumberAndProfitByEachAuthorCommand(View * view, Controller * controller): Command(view, controller)
+{
+	this->tableWidth = 15;
+	setDescription("Get information about number of sold CDs and earned money by each author");
+}
+
+void GetSoldCDsNumberAndProfitByEachAuthorCommand::execute()
+{
+	// Returns vector of vectors <author, sold_amount, profit>
+	std::vector<std::vector<std::string>> info = this->_controller->getSoldCDsNumberAndProfitByEachAuthor();
+	if (info.empty())
+	{
+		std::cout << "No information was recieved\n";
+		return;
+	}
+
+	std::cout << "author" << std::setw(tableWidth) << "sold amount" << std::setw(tableWidth) << "profit\n";
+	for (int i = 0; i < info.size(); i++)
+	{
+		std::cout << info[i][0] << std::setw(tableWidth) << info[i][1] << std::setw(tableWidth) << info[i][2] << "\n";
 	}
 }

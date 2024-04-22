@@ -66,7 +66,11 @@ public:
     std::vector<std::vector<std::string>> getSoldAndLeftCDSortedDescDiff() {
         return std::vector<std::vector<std::string>>({ {"1", "2", "3", "1"}, {"2", "5", "10", "5"} });
     }
-
+    // Returns vector of vectors <author, sold_amount, profit>
+    std::vector<std::vector<std::string>> getSoldCDsNumberAndProfitByEachAuthor()
+    {
+        return std::vector<std::vector<std::string>>({ {"aaa", "12", "200"}, {"bbb", "33", "300"} });
+    }
 
 
     /*std::vector<std::string> getSoldCDsNumberAndProfitByEachAuthor();

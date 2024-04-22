@@ -81,7 +81,23 @@ std::vector<std::vector<std::string>> Controller::getSoldAndLeftCDAmountSortedDe
 	std::vector<std::vector<std::string>> info = this->_model->getSoldAndLeftCDSortedDescDiff();
 	for (int i = 0; i < info.size(); i++)
 	{
+		// if some data is lost, not show it
 		if (info[i].size() < 4)
+		{
+			info.erase(info.begin() + i);
+			i--;
+		}
+	}
+	return info;
+}
+
+std::vector<std::vector<std::string>> Controller::getSoldCDsNumberAndProfitByEachAuthor()
+{
+	std::vector<std::vector<std::string>> info = this->_model->getSoldCDsNumberAndProfitByEachAuthor();
+	// if some data is lost, not show it
+	for (int i = 0; i < info.size(); i++)
+	{
+		if (info[i].size() < 3)
 		{
 			info.erase(info.begin() + i);
 			i--;

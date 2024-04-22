@@ -28,4 +28,5 @@ public:
 	bool canBuyCD(int CD_code, int quantity);
 	bool buyCD(const std::vector<Operation>& operations);
 	std::vector<std::vector<std::string>> getSoldAndLeftCDAmountSortedDescDiff();
+	std::vector<std::vector<std::string>> getSoldCDsNumberAndProfitByEachAuthor();
 };

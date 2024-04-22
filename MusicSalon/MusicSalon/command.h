@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 class View;
 
@@ -121,6 +122,16 @@ class GetSoldAndLeftCDAmountSortedDescDiffCommand : public Command
 public:
 	GetSoldAndLeftCDAmountSortedDescDiffCommand(View* view, Controller* controller);
 	~GetSoldAndLeftCDAmountSortedDescDiffCommand() {}
+	void execute() override;
+};
+
+class GetSoldCDsNumberAndProfitByEachAuthorCommand : public Command
+{
+private: 
+	int tableWidth;
+public:
+	GetSoldCDsNumberAndProfitByEachAuthorCommand(View* view, Controller* controller);
+	~GetSoldCDsNumberAndProfitByEachAuthorCommand() {}
 	void execute() override;
 };
 
