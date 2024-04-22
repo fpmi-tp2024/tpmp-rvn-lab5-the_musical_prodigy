@@ -279,27 +279,26 @@ std::vector<std::vector<std::string>> Model::getSoldAndLeftCDSortedDescDiff() {
 }
 
 std::vector<std::vector<std::string>> Model::getSoldCDsNumberAndProfitByEachAuthor() {
-    // Returns vector of vectors <author_id, sold_amount, profit>
+    // Returns vector of vectors <author, sold_amount, profit>
     std::vector<std::vector<std::string>> result;
     std::vector<std::string> temp;
-    std::string longQuery = "SELECT author_id, SUM(quantity), SUM(quantity)*price FROM (SELECT DISTINCT AUTHOR.author_id, CD_code, OPERATION.operation_type_id, quantity, price FROM AUTHOR";
+    std::string longQuery = "SELECT name, SUM(quantity), SUM(quantity)*price FROM (SELECT DISTINCT name , CD_code, OPERATION.operation_type_id, quantity, price FROM AUTHOR";
     longQuery += " INNER JOIN m2m_MUSICAL_COMPOSITION_AUTHOR ON m2m_MUSICAL_COMPOSITION_AUTHOR.author_id = AUTHOR.author_id";
     longQuery += " INNER JOIN m2m_MUSICAL_COMPOSITION_CD ON m2m_MUSICAL_COMPOSITION_CD.composition_id = m2m_MUSICAL_COMPOSITION_AUTHOR.composition_id";
     longQuery += " INNER JOIN OPERATION_CDs ON OPERATION_CDs.CD_id = m2m_MUSICAL_COMPOSITION_CD.CD_code";
     longQuery += " INNER JOIN OPERATION ON OPERATION.operation_id = OPERATION_CDs.operation_id";
     longQuery += " INNER JOIN CD on CD.CD_id = OPERATION_CDs.CD_id";
-    longQuery += " WHERE operation_type_id = 1) AS table1 GROUP BY author_id";
+    longQuery += " WHERE operation_type_id = 1) AS table1 GROUP BY name";
     try {
         SQLite::Statement query(*db, longQuery.c_str());
-        int authorCode = 0;
         int sold = 0;
         double profit = 0;
         while (query.executeStep())
         {
-            authorCode = query.getColumn(0);
+            std::string authorName = query.getColumn(0);
             sold = query.getColumn(1);
             profit = query.getColumn(2);
-            temp.push_back(std::to_string(authorCode));
+            temp.push_back(authorName);
             temp.push_back(std::to_string(sold));
             temp.push_back(std::to_string(profit));
             result.push_back(temp);
