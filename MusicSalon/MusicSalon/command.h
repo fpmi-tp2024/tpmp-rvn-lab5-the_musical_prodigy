@@ -120,7 +120,7 @@ class GetSoldAndLeftCDAmountSortedDescDiffCommand : public Command
 {
 public:
 	GetSoldAndLeftCDAmountSortedDescDiffCommand(View* view, Controller* controller);
-	~GetSoldAndLeftCDAmountSortedDescDiffCommand();
+	~GetSoldAndLeftCDAmountSortedDescDiffCommand() {}
 	void execute() override;
 };
 

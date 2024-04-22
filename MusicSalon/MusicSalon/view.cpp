@@ -60,11 +60,11 @@ void View::addCustomerMenuCommands()
 void View::addAdminMenuCommands()
 {
 	this->_adminMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
-	this->_customerMenuCommands["1"] = new AvailableCDsInfoCommand(this, this->getController());
-	this->_customerMenuCommands["2"] = new BestSellingCDInfoCommand(this, this->getController());
-	this->_customerMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
-	this->_customerMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
-	this->_customerMenuCommands["5"] = new GetSoldAndLeftCDAmountSortedDescDiffCommand(this, this->getController());
+	this->_adminMenuCommands["1"] = new AvailableCDsInfoCommand(this, this->getController());
+	this->_adminMenuCommands["2"] = new BestSellingCDInfoCommand(this, this->getController());
+	this->_adminMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
+	this->_adminMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
+	this->_adminMenuCommands["5"] = new GetSoldAndLeftCDAmountSortedDescDiffCommand(this, this->getController());
 	this->_adminMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
@@ -285,8 +285,6 @@ void View::start()
 	while (userCommand != View::quitCommand)
 	{
 		std::getline(std::cin, userCommand);
-		
-		std::cout << "userCommand: " << userCommand << "\n";
 		
 		if (this->_user == nullptr)
 		{
