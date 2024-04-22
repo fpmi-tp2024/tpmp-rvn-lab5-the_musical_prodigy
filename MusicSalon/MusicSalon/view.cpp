@@ -60,6 +60,11 @@ void View::addCustomerMenuCommands()
 void View::addAdminMenuCommands()
 {
 	this->_adminMenuCommands["logOut"] = new LogOutCommand(this, this->getController());
+	this->_customerMenuCommands["1"] = new AvailableCDsInfoCommand(this, this->getController());
+	this->_customerMenuCommands["2"] = new BestSellingCDInfoCommand(this, this->getController());
+	this->_customerMenuCommands["3"] = new MostPopularSingerSoldCDsAmountCommand(this, this->getController());
+	this->_customerMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
+	this->_customerMenuCommands["5"] = new GetSoldAndLeftCDAmountSortedDescDiffCommand(this, this->getController());
 	this->_adminMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 

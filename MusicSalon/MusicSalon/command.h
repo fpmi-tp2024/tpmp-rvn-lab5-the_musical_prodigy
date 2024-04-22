@@ -116,4 +116,12 @@ public:
 	void execute() override;
 };
 
+class GetSoldAndLeftCDAmountSortedDescDiffCommand : public Command
+{
+public:
+	GetSoldAndLeftCDAmountSortedDescDiffCommand(View* view, Controller* controller);
+	~GetSoldAndLeftCDAmountSortedDescDiffCommand();
+	void execute() override;
+};
+
 

@@ -75,3 +75,17 @@ bool Controller::buyCD(const std::vector<Operation>& operations)
 {
 	return this->_model->buyCD(operations);
 }
+
+std::vector<std::vector<std::string>> Controller::getSoldAndLeftCDAmountSortedDescDiff()
+{
+	std::vector<std::vector<std::string>> info = this->_model->getSoldAndLeftCDSortedDescDiff();
+	for (int i = 0; i < info.size(); i++)
+	{
+		if (info[i].size() < 4)
+		{
+			info.erase(info.begin() + i);
+			i--;
+		}
+	}
+	return info;
+}

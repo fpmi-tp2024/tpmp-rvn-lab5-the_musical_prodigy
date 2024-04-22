@@ -273,7 +273,7 @@ void QuitCommand::execute()
 
 AvailableCDsInfoCommand::AvailableCDsInfoCommand(View* view, Controller* controller) : Command(view, controller)
 {
-	setDescription("Show info about all available CDs in out salon");
+	setDescription("Show info about all available CDs in our salon");
 }
 
 AvailableCDsInfoCommand::~AvailableCDsInfoCommand()
@@ -588,5 +588,30 @@ void BuyCDCommand::execute()
 				canMakeOrder = false;
 			}
 		}
+	}
+}
+
+GetSoldAndLeftCDAmountSortedDescDiffCommand::GetSoldAndLeftCDAmountSortedDescDiffCommand(View* view, Controller* controller): Command(view, controller)
+{
+	setDescription("Get information about amount of sold and left CDs sorted by descending difference");
+}
+
+void GetSoldAndLeftCDAmountSortedDescDiffCommand::execute()
+{
+	std::vector<std::vector<std::string>> info = this->_controller->getSoldAndLeftCDAmountSortedDescDiff();
+	if (info.empty())
+	{
+		std::cout << "No information was recieved\n";
+		return;
+	}
+
+	std::cout << "CD code\t" << "sold amount\t" << "amount in stock\t" << "difference between amount in stock and sold\n";
+	for (int i = 0; i < info.size(); i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			std::cout << info[i][j] << "\t";
+		}
+		std::cout << info[i][3] << "\n";
 	}
 }
