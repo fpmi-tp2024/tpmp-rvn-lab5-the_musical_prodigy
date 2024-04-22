@@ -68,6 +68,7 @@ void View::addAdminMenuCommands()
 	this->_adminMenuCommands["6"] = new GetSoldCDsNumberAndProfitByEachAuthorCommand(this, this->getController());
 	this->_adminMenuCommands["7"] = new GetReceivedAndSoldCDAmountByEachCDCommand(this, this->getController());
 	this->_adminMenuCommands["8"] = new GetSoldCDsAmountAndProfitCommand(this, this->getController());
+	this->_adminMenuCommands["add"] = new AddCDCommand(this, this->getController());
 	this->_adminMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
@@ -195,6 +196,33 @@ bool View::isCorrectCDCode(const std::string& str) {
 	std::istringstream iss(str);
 	iss >> number;
 	return (number > 0);
+}
+
+bool View::isCorrectCDcodeAndAmount(const std::string& input)
+{
+	if (input.empty())
+	{
+		return false;
+	}
+
+	std::istringstream iss(input);
+	int num1, num2;
+	char delimiter;
+
+	if (!(iss >> num1 >> std::noskipws >> delimiter >> num2) || delimiter != ' ') {
+		return false;
+	}
+
+	if (num1 <= 0 || num2 <= 0) {
+		return false;
+	}
+
+	char c;
+	if (iss >> c) {
+		return false;
+	}
+
+	return true;
 }
 
 /*bool View::isCorrectCDsAmount(const std::string& amount)

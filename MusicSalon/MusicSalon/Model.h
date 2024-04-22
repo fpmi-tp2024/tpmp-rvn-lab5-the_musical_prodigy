@@ -42,7 +42,7 @@ public:
     {
         return true;
     }
-    bool buyCD(const std::vector<Operation>& operations)
+    bool addOrBuyCD(const std::vector<Operation>& operations)
     {
         return true;
     }

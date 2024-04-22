@@ -109,7 +109,6 @@ class BuyCDCommand : public Command
 private:
 	static const std::string endBuyCommand;
 	std::vector<std::pair<int, int>> orders;
-	bool isCorrectCDcodeAndAmount(const std::string& input);
 	void printOrders();
 public:
 	BuyCDCommand(View* view, Controller* controller);
@@ -150,5 +149,17 @@ class GetSoldCDsAmountAndProfitCommand : public Command
 public:
 	GetSoldCDsAmountAndProfitCommand(View* view, Controller* controller);
 	~GetSoldCDsAmountAndProfitCommand() {}
+	void execute() override;
+};
+
+class AddCDCommand : public Command
+{
+private:
+	int tableWidth = 15;
+	static const std::string endAddCommand;
+	std::vector<std::pair<int, int>> addedCDsAndAmount;
+public:
+	AddCDCommand(View* view, Controller* controller);
+	~AddCDCommand() {}
 	void execute() override;
 };

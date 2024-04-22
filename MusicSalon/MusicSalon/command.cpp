@@ -463,33 +463,6 @@ BuyCDCommand::~BuyCDCommand()
 
 }
 
-bool BuyCDCommand::isCorrectCDcodeAndAmount(const std::string& input)
-{
-	if (input.empty())
-	{
-		return false;
-	}
-
-	std::istringstream iss(input);
-	int num1, num2;
-	char delimiter;
-
-	if (!(iss >> num1 >> delimiter >> num2) || delimiter != ' ') {
-		return false;
-	}
-
-	if (num1 <= 0 || num2 <= 0) {
-		return false;
-	}
-
-	char c;
-	if (iss >> c) {
-		return false;
-	}
-
-	return true;
-}
-
 void BuyCDCommand::printOrders()
 {
 	std::cout << "Your order:\n";
@@ -503,7 +476,7 @@ void BuyCDCommand::execute()
 {
 	std::cout << "Choode CDs to buy:\n";
 	std::cout << "For each CD enter CD code and number of CDs if format 'cd_code number'\n";
-	std::cout << "To complete operation, enter 'buy'\n";
+	std::cout << "To complete operation, enter '" << this->endBuyCommand << "'\n";
 
 	std::string input;
 
@@ -524,6 +497,7 @@ void BuyCDCommand::execute()
 				std::getline(std::cin, answer);
 				if (answer != "y")
 				{
+					orders.clear();
 					return;
 				}
 
@@ -554,10 +528,13 @@ void BuyCDCommand::execute()
 			}
 		}
 
-		else if(!isCorrectCDcodeAndAmount(input))
+		else if(!this->_view->isCorrectCDcodeAndAmount(input))
 		{
 			std::cout << "incorrect format, try again\n";
-			canMakeOrder = false;
+			if (orders.empty())
+			{
+				canMakeOrder = false;
+			}
 		}
 
 		else
@@ -565,7 +542,7 @@ void BuyCDCommand::execute()
 			std::istringstream iss(input);
 			int CD_code, quantity;
 			char delimiter;
-			iss >> CD_code >> delimiter >> quantity;
+			iss >> CD_code >> std::noskipws >> delimiter >> quantity;
 
 			if (this->_controller->canBuyCD(CD_code))
 			{
@@ -806,4 +783,96 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 
 	std::cout << "CD code: " << CD_code << ", start period: " << startPeriod << ", end period: " << endPeriod << "\n";
 	std::cout << "profit: " << info[0] << ", amount of sold CDs: " << info[1] << "\n";
+}
+
+// AddCDCommand
+
+const std::string AddCDCommand::endAddCommand = "add";
+
+AddCDCommand::AddCDCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	tableWidth = 15;
+	setDescription("Add a particular amount of CDs of a particular CD number to th salon");
+}
+
+void AddCDCommand::execute()
+{
+	std::cout << "Choode CDs to add:\n";
+	std::cout << "For each CD enter CD code and number of CDs if format 'cd_code number'\n";
+	std::cout << "To complete operation, enter '" << this->endAddCommand << "'\n";
+
+	std::string input;
+
+	bool canAdd = false;
+
+	while (input != endCommand)
+	{
+		std::getline(std::cin, input);
+
+		if (input == endAddCommand)
+		{
+			if (canAdd)
+			{
+				std::cout << "CDs to add:\n";
+				std::cout << std::setw(tableWidth) << "CD code" << std::setw(tableWidth) << "quantity" << "\n";
+				for (int i = 0; i < addedCDsAndAmount.size(); i++)
+				{
+					std::cout << std::setw(tableWidth) << addedCDsAndAmount[i].first << std::setw(tableWidth) << addedCDsAndAmount[i].second << "\n";
+				}
+
+				std::cout << "If you agree to complete the operation, type 'y', if not agree, type anything but 'y':\n";
+				std::string answer;
+				std::getline(std::cin, answer);
+				if (answer != "y")
+				{
+					addedCDsAndAmount.clear();
+					return;
+				}
+
+				std::vector<Operation> operations(addedCDsAndAmount.size());
+
+				for (int i = 0; i < addedCDsAndAmount.size(); i++)
+				{
+					Operation operation = Operation(OperationCode::RECEIVE, addedCDsAndAmount[i].first, this->_view->getCurrentDate(), addedCDsAndAmount[i].second);
+					operations[i] = operation;
+				}
+
+				if (this->_controller->addCD(operations))
+				{
+					std::cout << "You successfully add these CDs to the salon\n";
+				}
+
+				else
+				{
+					std::cout << "Something went wrong, try again\n";
+				}
+
+				return;
+			}
+
+			else
+			{
+				std::cout << "There are some problems in your data, fix them and try again\n";
+			}
+		}
+
+		else if (!this->_view->isCorrectCDcodeAndAmount(input))
+		{
+			std::cout << "incorrect format, try again\n";
+			if (this->addedCDsAndAmount.empty())
+			{
+				canAdd = false;
+			}
+		}
+
+		else
+		{
+			std::istringstream iss(input);
+			int CD_code, quantity;
+			char delimiter;
+			iss >> CD_code >> std::noskipws >> delimiter >> quantity;
+			this->addedCDsAndAmount.push_back(std::pair<int, int>(CD_code, quantity));
+			canAdd = true;
+		}
+	}
 }

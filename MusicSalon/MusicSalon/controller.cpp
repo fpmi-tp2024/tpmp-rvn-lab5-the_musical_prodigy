@@ -73,7 +73,7 @@ bool Controller::canBuyCD(int CD_code, int quantity)
 
 bool Controller::buyCD(const std::vector<Operation>& operations)
 {
-	return this->_model->buyCD(operations);
+	return this->_model->addOrBuyCD(operations);
 }
 
 std::vector<std::vector<std::string>> Controller::getSoldAndLeftCDAmountSortedDescDiff()
@@ -130,4 +130,9 @@ std::vector<double> Controller::getSoldCDsAmountAndProfit(int CDCode, std::strin
 		info.clear();
 	}
 	return info;
+}
+
+bool Controller::addCD(const std::vector<Operation>& operations)
+{
+	return this->_model->addOrBuyCD(operations);
 }
