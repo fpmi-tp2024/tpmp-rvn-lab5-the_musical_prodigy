@@ -66,6 +66,7 @@ void View::addAdminMenuCommands()
 	this->_adminMenuCommands["4"] = new GetSoldCDsAmountByCDCodeAndTimePeriodCommand(this, this->getController());
 	this->_adminMenuCommands["5"] = new GetSoldAndLeftCDAmountSortedDescDiffCommand(this, this->getController());
 	this->_adminMenuCommands["6"] = new GetSoldCDsNumberAndProfitByEachAuthorCommand(this, this->getController());
+	this->_adminMenuCommands["7"] = new GetReceivedAndSoldCDAmountByEachCDCommand(this, this->getController());
 	this->_adminMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 

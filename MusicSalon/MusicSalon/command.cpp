@@ -642,3 +642,79 @@ void GetSoldCDsNumberAndProfitByEachAuthorCommand::execute()
 		std::cout << info[i][0] << std::setw(tableWidth) << info[i][1] << std::setw(tableWidth) << info[i][2] << "\n";
 	}
 }
+
+// GetReceivedAndSoldCDAmountByEachCDCommand
+
+GetReceivedAndSoldCDAmountByEachCDCommand::GetReceivedAndSoldCDAmountByEachCDCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	this->tableWidth = 18;
+	setDescription("Get information about the number of received and sold compacts for each CD number by given amount of time");
+}
+
+void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
+{
+	std::string startPeriod;
+	std::cout << "Enter start period in format yyyy-mm-dd (year >= 2000):\n";
+	std::getline(std::cin, startPeriod);
+
+	if (startPeriod == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isValidDate(startPeriod))
+	{
+		if (startPeriod == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect data format, try again:\n";
+		std::getline(std::cin, startPeriod);
+	}
+
+	std::string endPeriod;
+	std::cout << "Enter end period in format yyyy-mm-dd:\n";
+	std::getline(std::cin, endPeriod);
+
+	if (endPeriod == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isValidDate(endPeriod))
+	{
+		if (endPeriod == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect data format, try again:\n";
+		std::getline(std::cin, endPeriod);
+	}
+
+	while (this->_view->compareDates(startPeriod, endPeriod) == 1) // startPeriod > endPeriod
+	{
+		std::cout << "End period should  go after start period, try enter end period again:\n";
+		std::getline(std::cin, endPeriod);
+		if (endPeriod == endCommand)
+		{
+			return;
+		}
+	}
+
+	//returns 3 columns: CD_id, Sold amount, Received amount
+	std::vector<std::vector<int>> info = this->_controller->getReceivedAndSoldCDAmountByEachCD(startPeriod, endPeriod);
+	if (info.empty())
+	{
+		std::cout << "No information was recieved\n";
+		return;
+	}
+
+	std::cout << "start period: " << startPeriod << ", end period: " << endPeriod << "\n";
+	std::cout << std::setw(tableWidth) << "CD id" << std::setw(tableWidth) << "sold amount" << std::setw(tableWidth) << "recieved amount\n";
+	for (int i = 0; i < info.size(); i++)
+	{
+		std::cout << std::setw(tableWidth) << info[i][0] << std::setw(tableWidth) << info[i][1] << std::setw(tableWidth) << info[i][2] << "\n";
+	}
+}

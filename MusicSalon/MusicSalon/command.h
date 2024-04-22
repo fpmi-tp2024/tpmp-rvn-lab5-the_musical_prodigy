@@ -135,4 +135,12 @@ public:
 	void execute() override;
 };
 
-
+class GetReceivedAndSoldCDAmountByEachCDCommand : public Command
+{
+private:
+	int tableWidth;
+public:
+	GetReceivedAndSoldCDAmountByEachCDCommand(View* view, Controller* controller);
+	~GetReceivedAndSoldCDAmountByEachCDCommand() {}
+	void execute() override;
+};

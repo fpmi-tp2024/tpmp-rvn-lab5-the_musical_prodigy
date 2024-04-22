@@ -29,4 +29,5 @@ public:
 	bool buyCD(const std::vector<Operation>& operations);
 	std::vector<std::vector<std::string>> getSoldAndLeftCDAmountSortedDescDiff();
 	std::vector<std::vector<std::string>> getSoldCDsNumberAndProfitByEachAuthor();
+	std::vector<std::vector<int>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
 };

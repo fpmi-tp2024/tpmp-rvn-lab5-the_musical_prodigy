@@ -105,3 +105,18 @@ std::vector<std::vector<std::string>> Controller::getSoldCDsNumberAndProfitByEac
 	}
 	return info;
 }
+
+std::vector<std::vector<int>> Controller::getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod)
+{
+	std::vector<std::vector<int>> info = this->_model->getReceivedAndSoldCDAmountByEachCD(startPeriod, endPeriod);
+	// if some data is lost, not show it
+	for (int i = 0; i < info.size(); i++)
+	{
+		if (info[i].size() < 3)
+		{
+			info.erase(info.begin() + i);
+			i--;
+		}
+	}
+	return info;
+}

@@ -71,10 +71,14 @@ public:
     {
         return std::vector<std::vector<std::string>>({ {"aaa", "12", "200"}, {"bbb", "33", "300"} });
     }
+    //returns 3 columns: CD_id, Sold amount, Received amount
+    std::vector<std::vector<int>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod)
+    {
+        return std::vector<std::vector<int>>({ {1, 2, 3}, {4222222, 522222, 622222222} });
+    }
 
 
-    /*std::vector<std::string> getSoldCDsNumberAndProfitByEachAuthor();
-    bool addCD(int CDCode, int quantity);
+    /*bool addCD(int CDCode, int quantity);
     std::vector<std::vector<std::string>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
     std::vector<std::vector<std::string>> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod);*/
 };
