@@ -182,6 +182,7 @@ int Model::getBestSellingCDId()
     catch (std::exception& e)
     {
         std::cout << "exception: " << e.what() << std::endl;
+        return -1;
     }
     return id;
 }
@@ -230,6 +231,7 @@ int Model::getMostPopularSingerSoldCDsAmount() {
     catch (std::exception& e)
     {
         std::cout << "exception: " << e.what() << std::endl;
+        return -1;
     }
     return sold;
 }
@@ -241,7 +243,7 @@ int Model::getSoldCDsAmount(int CDCode, std::string startPeriod, std::string end
         if (result[i][0] == CDCode)
             return result[i][1];
     }
-    return 0;
+    return -1;
 }
 std::vector<std::vector<std::string>> Model::getSoldAndLeftCDSortedDescDiff() {
     // Returns vector of vectors <CD_code, sold_amount, amount_in_stock, difference_between_amount_in_stock_and_sold>
