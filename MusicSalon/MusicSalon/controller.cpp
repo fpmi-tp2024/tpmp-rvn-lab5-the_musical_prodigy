@@ -82,7 +82,7 @@ std::vector<std::vector<std::string>> Controller::getSoldAndLeftCDAmountSortedDe
 	for (int i = 0; i < info.size(); i++)
 	{
 		// if some data is lost, not show it
-		if (info[i].size() < 4)
+		if (info[i].size() != 4)
 		{
 			info.erase(info.begin() + i);
 			i--;
@@ -97,7 +97,7 @@ std::vector<std::vector<std::string>> Controller::getSoldCDsNumberAndProfitByEac
 	// if some data is lost, not show it
 	for (int i = 0; i < info.size(); i++)
 	{
-		if (info[i].size() < 3)
+		if (info[i].size() != 3)
 		{
 			info.erase(info.begin() + i);
 			i--;
@@ -112,11 +112,22 @@ std::vector<std::vector<int>> Controller::getReceivedAndSoldCDAmountByEachCD(std
 	// if some data is lost, not show it
 	for (int i = 0; i < info.size(); i++)
 	{
-		if (info[i].size() < 3)
+		if (info[i].size() != 3)
 		{
 			info.erase(info.begin() + i);
 			i--;
 		}
+	}
+	return info;
+}
+
+std::vector<double> Controller::getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod)
+{
+	std::vector<double> info = this->_model->getSoldCDsAmountAndProfit(CDCode, startPeriod, endPeriod);
+	// if some data is lost, not show it
+	if (info.size() != 2)
+	{
+		info.clear();
 	}
 	return info;
 }

@@ -703,7 +703,6 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 		}
 	}
 
-	//returns 3 columns: CD_id, Sold amount, Received amount
 	std::vector<std::vector<int>> info = this->_controller->getReceivedAndSoldCDAmountByEachCD(startPeriod, endPeriod);
 	if (info.empty())
 	{
@@ -717,4 +716,94 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 	{
 		std::cout << std::setw(tableWidth) << info[i][0] << std::setw(tableWidth) << info[i][1] << std::setw(tableWidth) << info[i][2] << "\n";
 	}
+}
+
+// GetSoldCDsAmountAndProfitCommand
+
+GetSoldCDsAmountAndProfitCommand::GetSoldCDsAmountAndProfitCommand(View* view, Controller* controller) : Command(view, controller)
+{
+	setDescription("Get amount of sold CDs and amount of earned money by CD number and time period");
+}
+
+void GetSoldCDsAmountAndProfitCommand::execute()
+{
+	std::string CD_code;
+	std::cout << "Enter CD code:\n";
+	std::getline(std::cin, CD_code);
+
+	if (CD_code == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isCorrectCDCode(CD_code))
+	{
+		if (CD_code == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect CD code format, try again:\n";
+		std::getline(std::cin, CD_code);
+	}
+
+	std::string startPeriod;
+	std::cout << "Enter start period in format yyyy-mm-dd (year >= 2000):\n";
+	std::getline(std::cin, startPeriod);
+
+	if (startPeriod == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isValidDate(startPeriod))
+	{
+		if (startPeriod == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect data format, try again:\n";
+		std::getline(std::cin, startPeriod);
+	}
+
+	std::string endPeriod;
+	std::cout << "Enter end period in format yyyy-mm-dd:\n";
+	std::getline(std::cin, endPeriod);
+
+	if (endPeriod == endCommand)
+	{
+		return;
+	}
+
+	while (!this->_view->isValidDate(endPeriod))
+	{
+		if (endPeriod == endCommand)
+		{
+			return;
+		}
+
+		std::cout << "Incorrect data format, try again:\n";
+		std::getline(std::cin, endPeriod);
+	}
+
+	while (this->_view->compareDates(startPeriod, endPeriod) == 1) // startPeriod > endPeriod
+	{
+		std::cout << "End period should  go after start period, try enter end period again:\n";
+		std::getline(std::cin, endPeriod);
+		if (endPeriod == endCommand)
+		{
+			return;
+		}
+	}
+
+	std::vector<double> info = this->_controller->getSoldCDsAmountAndProfit(stoi(CD_code), startPeriod, endPeriod);
+	if (info.empty())
+	{
+		std::cout << "No information was recieved\n";
+		return;
+	}
+
+	std::cout << "CD code: " << CD_code << ", start period: " << startPeriod << ", end period: " << endPeriod << "\n";
+	std::cout << "profit: " << info[0] << ", amount of sold CDs: " << info[1] << "\n";
 }

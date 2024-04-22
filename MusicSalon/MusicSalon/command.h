@@ -144,3 +144,11 @@ public:
 	~GetReceivedAndSoldCDAmountByEachCDCommand() {}
 	void execute() override;
 };
+
+class GetSoldCDsAmountAndProfitCommand : public Command
+{
+public:
+	GetSoldCDsAmountAndProfitCommand(View* view, Controller* controller);
+	~GetSoldCDsAmountAndProfitCommand() {}
+	void execute() override;
+};

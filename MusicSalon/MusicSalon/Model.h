@@ -76,10 +76,14 @@ public:
     {
         return std::vector<std::vector<int>>({ {1, 2, 3}, {4222222, 522222, 622222222} });
     }
+    //returns <profit, amount_of_sold_CDs>
+    std::vector<double> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod)
+    {
+        return std::vector<double>({ 300000000, 6000 });
+    }
+    
 
-
-    /*bool addCD(int CDCode, int quantity);
-    std::vector<std::vector<std::string>> getReceivedAndSoldCDAmountByEachCD(std::string startPeriod, std::string endPeriod);
-    std::vector<std::vector<std::string>> getSoldCDsAmountAndProfit(int CDCode, std::string startPeriod, std::string endPeriod);*/
+    //bool addCD(int CDCode, int quantity);
+    
 };
 
