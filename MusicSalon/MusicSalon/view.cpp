@@ -307,6 +307,11 @@ std::string View::getCurrentDate()
 	return ss.str();
 }
 
+UserRole View::getUserRole() const
+{
+	return this->_user->getUserRoleId();
+}
+
 void View::start()
 {
 	printGreeting();

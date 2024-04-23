@@ -48,6 +48,7 @@ public:
 	bool isValidDate(const std::string& dateStr);
 	int compareDates(const std::string& date1, const std::string& date2);
 	std::string getCurrentDate();
+	UserRole getUserRole() const;
 	void start();
 	friend class SignUpCommand;
 	friend class SignInCommand;
