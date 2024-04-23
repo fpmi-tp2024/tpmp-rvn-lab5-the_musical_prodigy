@@ -1,6 +1,6 @@
 //MariaGorelik
 
-//ToDo: add printMenu commands
+//ToDo: add printMenu
 
 #pragma once
 
@@ -20,6 +20,7 @@ protected:
 	Controller* _controller;
 	std::string _description;
 	static const std::string endCommand;
+	void printAuthorizedUserMenu() const;
 public:
 	Command();
 	Command(View* view, Controller* controller);

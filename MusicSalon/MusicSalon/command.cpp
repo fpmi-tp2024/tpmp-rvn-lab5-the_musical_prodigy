@@ -34,6 +34,18 @@ std::string Command::getDescription()
 	return this->_description;
 }
 
+void Command::printAuthorizedUserMenu() const
+{
+	if (this->_view->getUserRole() == UserRole::USER)
+	{
+		this->_view->printCustomerMenu();
+	}
+	else if (this->_view->getUserRole() == UserRole::ADMIN)
+	{
+		this->_view->printAdminMenu();
+	}
+}
+
 //AuthorizationCommand
 
 AuthorizationCommand::AuthorizationCommand(View* view, Controller* controller) : Command(view, controller)
@@ -138,15 +150,7 @@ void SignUpCommand::execute()
 	{
 		std::cout << "You have signed up successfully!\n";
 		this->_view->_user = user;
-		if (this->_view->_user->getUserRoleId() == UserRole::USER)
-		{
-			this->_view->printCustomerMenu();
-		}
-
-		else if (this->_view->_user->getUserRoleId() == UserRole::ADMIN)
-		{
-			this->_view->printAdminMenu();
-		}
+		printAuthorizedUserMenu();
 	}
 
 	else
@@ -217,15 +221,7 @@ void SignInCommand::execute()
 	{
 		std::cout << "You have signed in successfully!\n";
 		this->_view->_user = user;
-		if (this->_view->_user->getUserRoleId() == UserRole::USER)
-		{
-			this->_view->printCustomerMenu();
-		}
-
-		else if (this->_view->_user->getUserRoleId() == UserRole::ADMIN)
-		{
-			this->_view->printAdminMenu();
-		}
+		printAuthorizedUserMenu();
 	}
 
 	else
@@ -250,6 +246,7 @@ void LogOutCommand::execute()
 {
 	this->_view->_user = nullptr;
 	std::cout << "You have successfully logged out\n";
+	this->_view->printStartMenu();
 }
 
 // QuitCommand
@@ -288,16 +285,20 @@ void AvailableCDsInfoCommand::execute()
 	if (info.empty())
 	{
 		std::cout << "No data found\n";
-		return;
 	}
 
-	std::cout << "Available CDs list:\n";
-
-	for (int i = 0; i < info.size(); i++)
+	else
 	{
-		this->_view->printCD(info[i]);
-		std::cout << "\n";
+		std::cout << "Available CDs list:\n";
+
+		for (int i = 0; i < info.size(); i++)
+		{
+			this->_view->printCD(info[i]);
+			std::cout << "\n";
+		}
 	}
+
+	printAuthorizedUserMenu();
 }
 
 //BestSellingCDInfoCommand
@@ -319,12 +320,16 @@ void BestSellingCDInfoCommand::execute()
 	if (cd.getCDCode() == -1)
 	{
 		std::cout << "No data found\n";
-		return;
 	}
 
-	std::cout << "Information about the best selling CD:\n";
-	this->_view->printCD(cd);
-	std::cout << "\n";
+	else
+	{
+		std::cout << "Information about the best selling CD:\n";
+		this->_view->printCD(cd);
+		std::cout << "\n";
+	}
+
+	printAuthorizedUserMenu();
 }
 
 //MostPopularSingerSoldCDsAmountCommand
@@ -346,10 +351,14 @@ void MostPopularSingerSoldCDsAmountCommand::execute()
 	if (amount == -1)
 	{
 		std::cout << "No fata found\n";
-		return;
 	}
 
-	std::cout << "Amount of sold CDs of the most popular singer: " << amount << "\n";
+	else
+	{
+		std::cout << "Amount of sold CDs of the most popular singer: " << amount << "\n";
+	}
+
+	printAuthorizedUserMenu();
 }
 
 // GetSoldCDsAmountByCDCodeAndTimePeriodCommand
@@ -372,6 +381,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 
 	if (CD_code == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -379,6 +389,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 	{
 		if (CD_code == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -392,6 +403,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 
 	if (startPeriod == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -399,6 +411,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 	{
 		if (startPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -412,6 +425,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 
 	if (endPeriod == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -419,6 +433,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 	{
 		if (endPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -432,6 +447,7 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 		std::getline(std::cin, endPeriod);
 		if (endPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 	}
@@ -441,12 +457,14 @@ void GetSoldCDsAmountByCDCodeAndTimePeriodCommand::execute()
 	if (soldCDsAmount == -1)
 	{
 		std::cout << "No data found\n";
+		printAuthorizedUserMenu();
 		return;
 	}
 
 	std::cout << "Sold CDs amount by CD code: " << CD_code << ", start date: " << startPeriod;
     std::cout << ", end period: " << endPeriod << ":\n";
-	std::cout << soldCDsAmount << "\n";
+	std::cout << soldCDsAmount << "\n\n";
+	printAuthorizedUserMenu();
 }
 
 // BuyCDCommand
@@ -498,6 +516,7 @@ void BuyCDCommand::execute()
 				if (answer != "y")
 				{
 					orders.clear();
+					printAuthorizedUserMenu();
 					return;
 				}
 
@@ -519,6 +538,8 @@ void BuyCDCommand::execute()
 					std::cout << "Something went wrong, try again\n";
 				}
 
+				std::cout << "\n";
+				printAuthorizedUserMenu();
 				return;
 			}
 
@@ -580,7 +601,8 @@ void GetSoldAndLeftCDAmountSortedDescDiffCommand::execute()
 	std::vector<std::vector<std::string>> info = this->_controller->getSoldAndLeftCDAmountSortedDescDiff();
 	if (info.empty())
 	{
-		std::cout << "No information was recieved\n";
+		std::cout << "No information was recieved\n\n";
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -593,6 +615,8 @@ void GetSoldAndLeftCDAmountSortedDescDiffCommand::execute()
 		}
 		std::cout << info[i][3] << "\n";
 	}
+
+	printAuthorizedUserMenu();
 }
 
 // GetSoldCDsNumberAndProfitByEachAuthorCommand
@@ -610,6 +634,7 @@ void GetSoldCDsNumberAndProfitByEachAuthorCommand::execute()
 	if (info.empty())
 	{
 		std::cout << "No information was recieved\n";
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -618,6 +643,8 @@ void GetSoldCDsNumberAndProfitByEachAuthorCommand::execute()
 	{
 		std::cout << info[i][0] << std::setw(tableWidth) << info[i][1] << std::setw(tableWidth) << info[i][2] << "\n";
 	}
+
+	printAuthorizedUserMenu();
 }
 
 // GetReceivedAndSoldCDAmountByEachCDCommand
@@ -636,6 +663,7 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 
 	if (startPeriod == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -643,6 +671,7 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 	{
 		if (startPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -656,6 +685,7 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 
 	if (endPeriod == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -663,6 +693,7 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 	{
 		if (endPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -676,6 +707,7 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 		std::getline(std::cin, endPeriod);
 		if (endPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 	}
@@ -684,6 +716,7 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 	if (info.empty())
 	{
 		std::cout << "No information was recieved\n";
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -693,6 +726,8 @@ void GetReceivedAndSoldCDAmountByEachCDCommand::execute()
 	{
 		std::cout << std::setw(tableWidth) << info[i][0] << std::setw(tableWidth) << info[i][1] << std::setw(tableWidth) << info[i][2] << "\n";
 	}
+
+	printAuthorizedUserMenu();
 }
 
 // GetSoldCDsAmountAndProfitCommand
@@ -710,6 +745,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 
 	if (CD_code == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -717,6 +753,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 	{
 		if (CD_code == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -730,6 +767,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 
 	if (startPeriod == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -737,6 +775,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 	{
 		if (startPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -750,6 +789,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 
 	if (endPeriod == endCommand)
 	{
+		printAuthorizedUserMenu();
 		return;
 	}
 
@@ -757,6 +797,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 	{
 		if (endPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 
@@ -770,6 +811,7 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 		std::getline(std::cin, endPeriod);
 		if (endPeriod == endCommand)
 		{
+			printAuthorizedUserMenu();
 			return;
 		}
 	}
@@ -778,11 +820,13 @@ void GetSoldCDsAmountAndProfitCommand::execute()
 	if (info.empty())
 	{
 		std::cout << "No information was recieved\n";
+		printAuthorizedUserMenu();
 		return;
 	}
 
 	std::cout << "CD code: " << CD_code << ", start period: " << startPeriod << ", end period: " << endPeriod << "\n";
 	std::cout << "profit: " << info[0] << ", amount of sold CDs: " << info[1] << "\n";
+	printAuthorizedUserMenu();
 }
 
 // AddCDCommand
@@ -826,6 +870,7 @@ void AddCDCommand::execute()
 				if (answer != "y")
 				{
 					addedCDsAndAmount.clear();
+					printAuthorizedUserMenu();
 					return;
 				}
 
@@ -847,6 +892,7 @@ void AddCDCommand::execute()
 					std::cout << "Something went wrong, try again\n";
 				}
 
+				printAuthorizedUserMenu();
 				return;
 			}
 
