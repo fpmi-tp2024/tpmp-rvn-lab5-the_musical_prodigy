@@ -1,8 +1,8 @@
 //MariaGorelik
 
-//ToDo: захешировать пароли
+//ToDo: hash passwords
 
-#include "command.h"
+#include "../../include/View/command.h"
 
 //Command
 
@@ -104,16 +104,18 @@ void SignUpCommand::execute()
 
 	if (login == endCommand)
 	{
+		this->_view->printStartMenu();
 		return;
 	}
 
-	while (!this->_controller->checkLoginIfAlreadyExist(login))
+	while (this->_controller->LoginAlreadyExists(login))
 	{
 		std::cout << "User with this login already exists, try another login or type q to quit:\n";
 		login = this->enterLogin();
 
 		if (login == endCommand)
 		{
+			this->_view->printStartMenu();
 			return;
 		}
 	}
@@ -122,6 +124,7 @@ void SignUpCommand::execute()
 	
 	if (password == endCommand)
 	{
+		this->_view->printStartMenu();
 		return;
 	}
 
@@ -130,6 +133,7 @@ void SignUpCommand::execute()
 
 	if (passwordToConfirm == endCommand)
 	{
+		this->_view->printStartMenu();
 		return;
 	}
 
@@ -140,11 +144,14 @@ void SignUpCommand::execute()
 
 		if (passwordToConfirm == endCommand)
 		{
+			this->_view->printStartMenu();
 			return;
 		}
 	}
 
-	User* user = new User(UserRole::USER, login, password);
+	std::string hashedPassword = this->_view->hashPassword(password);
+
+	User* user = new User(UserRole::USER, login, hashedPassword);
 
 	if (this->_controller->signUp(*user))
 	{
@@ -156,6 +163,7 @@ void SignUpCommand::execute()
 	else
 	{
 		std::cout << "Sign up failed\n";
+		this->_view->printStartMenu();
 	}
 }
 
@@ -182,6 +190,7 @@ void SignInCommand::execute()
 
 	if (chosenUserRole == endCommand)
 	{
+		this->_view->printStartMenu();
 		return;
 	}
 
@@ -192,6 +201,7 @@ void SignInCommand::execute()
 
 		if (chosenUserRole == endCommand)
 		{
+			this->_view->printStartMenu();
 			return;
 		}
 	}
@@ -200,21 +210,23 @@ void SignInCommand::execute()
 
 	if (login == endCommand)
 	{
+		this->_view->printStartMenu();
 		return;
 	}
 
 	std::string password = this->enterPassword();
 
 	User* user;
+	std::string hashedPassword = this->_view->hashPassword(password);
 
 	if (chosenUserRole == "0")
 	{
-		user = new User(UserRole::USER, login, password);
+		user = new User(UserRole::USER, login, hashedPassword);
 	}
 
 	else
 	{
-		user = new User(UserRole::ADMIN, login, password);
+		user = new User(UserRole::ADMIN, login, hashedPassword);
 	}
 
 	if (this->_controller->signIn(*user))
@@ -227,6 +239,7 @@ void SignInCommand::execute()
 	else
 	{
 		std::cout << "Incorrect login or password\n";
+		this->_view->printStartMenu();
 	}
 }
 

@@ -1,7 +1,9 @@
 //MariaGorelik
 
-#include "view.h"
-#include "command.h"
+#include "../../include/View/view.h"
+#include "../../include/View/command.h"
+#include <openssl/evp.h>
+//#include <openssl/sha.h>
 
 const std::string View::quitCommand = "quit";
 
@@ -72,6 +74,49 @@ void View::addAdminMenuCommands()
 	this->_adminMenuCommands[View::quitCommand] = new QuitCommand(this, this->getController());
 }
 
+std::string View::hashPassword(const std::string& password) const
+{
+	EVP_MD_CTX* context = EVP_MD_CTX_new();
+
+    std::string hashed;
+
+    if (context != NULL)
+    {
+        if (EVP_DigestInit_ex(context, EVP_sha256(), NULL))
+        {
+            if (EVP_DigestUpdate(context, password.c_str(), password.length()))
+            {
+                unsigned char hash[EVP_MAX_MD_SIZE];
+                unsigned int lengthOfHash = 0;
+
+                if (EVP_DigestFinal_ex(context, hash, &lengthOfHash))
+                {
+                    std::stringstream ss;
+                    for (unsigned int i = 0; i < lengthOfHash; ++i)
+                    {
+                        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+                    }
+
+                    hashed = ss.str();
+                }
+            }
+        }
+
+        EVP_MD_CTX_free(context);
+    }
+    return hashed;
+
+	/*unsigned char hash[SHA256_DIGEST_LENGTH];
+	SHA256_CTX sha256;
+	SHA256_Init(&sha256);
+	SHA256_Update(&sha256, password.c_str(), password.size());
+	SHA256_Final(hash, &sha256);
+	std::stringstream ss;
+	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+		ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+	}
+	return ss.str();*/
+}
 
 void View::addController(Controller* controller)
 {
@@ -250,12 +295,12 @@ bool View::isValidDate(const std::string& dateStr) {
 	}
 
 	int year, month, day;
-	sscanf_s(dateStr.c_str(), "%d-%d-%d", &year, &month, &day);
+	sscanf(dateStr.c_str(), "%d-%d-%d", &year, &month, &day);
 
 	auto now = std::chrono::system_clock::now();
 	time_t nowTime = std::chrono::system_clock::to_time_t(now);
 	struct tm nowTM;
-	localtime_s(&nowTM, &nowTime);
+	localtime_r(&nowTime, &nowTM);
 	int currentYear = nowTM.tm_year + 1900;
 
 	if (year < 2000 || year > currentYear) {
@@ -275,10 +320,10 @@ bool View::isValidDate(const std::string& dateStr) {
 
 int View::compareDates(const std::string& date1, const std::string& date2) {
 	int year1, month1, day1;
-	sscanf_s(date1.c_str(), "%d-%d-%d", &year1, &month1, &day1);
+	sscanf(date1.c_str(), "%d-%d-%d", &year1, &month1, &day1);
 
 	int year2, month2, day2;
-	sscanf_s(date2.c_str(), "%d-%d-%d", &year2, &month2, &day2);
+	sscanf(date2.c_str(), "%d-%d-%d", &year2, &month2, &day2);
 
 	if (year1 < year2) return -1;
 	if (year1 > year2) return 1;
@@ -297,7 +342,7 @@ std::string View::getCurrentDate()
 	std::time_t currentTime;
 	std::tm localTime;
 	std::time(&currentTime);
-	localtime_s(&localTime, &currentTime);
+	localtime_r(&currentTime, &localTime);
 
 	std::stringstream ss;
 	ss << std::setfill('0') << std::setw(4) << localTime.tm_year + 1900 << ":"

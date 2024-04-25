@@ -1,4 +1,4 @@
-#include "CD.h"
+#include "../../include/Model/CD.h"
 
 CD::CD()
 {

@@ -2,19 +2,19 @@
 
 #pragma once
 
-#include "controller.h"
+#include "../Controller/controller.h"
 #include "command.h"
-#include "User.h"
-#include "CD.h"
-#include "MusicalComposition.h"
-#include "Operation.h"
-#include "command.h"
+#include "../Model/User.h"
+#include "../Model/CD.h"
+#include "../Model/MusicalComposition.h"
+#include "../Model/Operation.h"
 #include <iostream>
 #include <string>
 #include <unordered_map>
 #include <regex>
 #include <chrono>
 #include <ctime>
+#include <cstdio>
 #include <iomanip>
 
 class Command;
@@ -31,6 +31,7 @@ private:
 	void addStartMenuCommands();
 	void addCustomerMenuCommands();
 	void addAdminMenuCommands();
+	std::string hashPassword(const std::string& password) const;
 public:
 	View();
 	~View();

@@ -1,4 +1,4 @@
-#include "MusicalComposition.h"
+#include "../../include/Model/MusicalComposition.h"
 
 MusicalComposition::MusicalComposition(/* args */)
 {

@@ -1,6 +1,6 @@
 //MariaGorelik
 
-#include "controller.h"
+#include "../../include/Controller/controller.h"
 
 Controller::Controller()
 {
@@ -26,7 +26,7 @@ bool Controller::addModel(std::string dbFileName)
 	return false;
 }
 
-bool Controller::checkLoginIfAlreadyExist(std::string login)
+bool Controller::LoginAlreadyExists(std::string login)
 {
 	return this->_model->hasUserWithLogin(login);
 }
