@@ -171,7 +171,7 @@ void SignUpCommand::execute()
 
 SignInCommand::SignInCommand(View* view, Controller* controller): AuthorizationCommand(view, controller)
 {
-	setDescription("Sign in to to music salon");
+	setDescription("Sign in to music salon");
 }
 
 SignInCommand::~SignInCommand()
@@ -506,7 +506,7 @@ void BuyCDCommand::printOrders()
 void BuyCDCommand::execute()
 {
 	std::cout << "Choode CDs to buy:\n";
-	std::cout << "For each CD enter CD code and number of CDs if format 'cd_code number'\n";
+	std::cout << "For each CD enter CD code and number of CDs in format 'cd_code number'\n";
 	std::cout << "To complete operation, enter '" << this->endBuyCommand << "'\n";
 
 	std::string input;
@@ -849,13 +849,13 @@ const std::string AddCDCommand::endAddCommand = "add";
 AddCDCommand::AddCDCommand(View* view, Controller* controller) : Command(view, controller)
 {
 	tableWidth = 15;
-	setDescription("Add a particular amount of CDs of a particular CD number to th salon");
+	setDescription("Add a particular amount of CDs of a particular CD number to the salon");
 }
 
 void AddCDCommand::execute()
 {
-	std::cout << "Choode CDs to add:\n";
-	std::cout << "For each CD enter CD code and number of CDs if format 'cd_code number'\n";
+	std::cout << "Choose CDs to add:\n";
+	std::cout << "For each CD enter CD code and number of CDs in format 'cd_code number'\n";
 	std::cout << "To complete operation, enter '" << this->endAddCommand << "'\n";
 
 	std::string input;
