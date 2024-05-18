@@ -345,8 +345,8 @@ std::string View::getCurrentDate()
 	localtime_r(&currentTime, &localTime);
 
 	std::stringstream ss;
-	ss << std::setfill('0') << std::setw(4) << localTime.tm_year + 1900 << ":"
-		<< std::setw(2) << localTime.tm_mon + 1 << ":"
+	ss << std::setfill('0') << std::setw(4) << localTime.tm_year + 1900 << "-"
+		<< std::setw(2) << localTime.tm_mon + 1 << "-"
 		<< std::setw(2) << localTime.tm_mday;
 
 	return ss.str();
