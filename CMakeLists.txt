@@ -1,5 +1,8 @@
-cmake_minimum_required(VERSION 3.22)
 project(YourProjectName)
+
+# Set the C++11 standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 # Find OpenSSL package
 find_package(OpenSSL REQUIRED)
