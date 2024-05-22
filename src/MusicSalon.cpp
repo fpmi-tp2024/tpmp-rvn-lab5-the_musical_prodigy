@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include "include/View/view.h"
+#include "../include/View/view.h"
 
 int main()
 {

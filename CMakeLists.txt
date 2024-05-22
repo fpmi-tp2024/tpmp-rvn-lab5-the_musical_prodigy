@@ -17,9 +17,10 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/SQLiteCpp)
 file(GLOB MODEL_SOURCES src/Model/*.cpp)
 file(GLOB VIEW_SOURCES src/View/*.cpp)
 file(GLOB CONTROLLER_SOURCES src/Controller/*.cpp)
+file(GLOB MAIN_CPP src/MusicSalon.cpp)
 
 # Add your source files and create the executable
-add_executable(solution MusicSalon.cpp ${MODEL_SOURCES} ${VIEW_SOURCES} ${CONTROLLER_SOURCES})
+add_executable(solution ${MAIN_CPP} ${MODEL_SOURCES} ${VIEW_SOURCES} ${CONTROLLER_SOURCES})
 
 # Link against libraries: SQLiteCpp, sqlite3, pthread, dl, and OpenSSL
 target_link_libraries(solution PRIVATE SQLiteCpp sqlite3 pthread dl ${OPENSSL_LIBRARIES})
