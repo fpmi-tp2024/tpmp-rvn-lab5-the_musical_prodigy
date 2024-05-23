@@ -1,0 +1,7 @@
+#!/bin/bash
+rm -rf tests_coverage_report
+./runTests
+gcov tests.cpp
+lcov -t "tests_coverage" -o ./tests_coverage.info -c -d .
+genhtml -o tests_coverage_report tests_coverage.info
+rm -f *.gcno *.gcda tests_coverage.info
