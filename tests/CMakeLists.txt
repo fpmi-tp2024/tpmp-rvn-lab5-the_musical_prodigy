@@ -15,3 +15,6 @@ file(GLOB SOURCES "../src/Model/*.cpp")
 add_executable(runTests tests.cpp ${SOURCES})
 target_link_libraries(runTests gtest gtest_main pthread SQLiteCpp sqlite3 dl)
 
+# Add --coverage flag
+target_compile_options(runTests PRIVATE -fprofile-arcs -ftest-coverage -O0 -g)
+target_link_libraries(runTests PRIVATE -fprofile-arcs -ftest-coverage)
