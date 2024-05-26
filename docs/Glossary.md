@@ -1,3 +1,8 @@
+---
+title: Glossary
+filename: Glossary.md
+---
+
 # Glossary
 **This glossary is designed to capture the common terminology used within the Musical Salon project. It is intended to be understood by a broad audience.**
 
