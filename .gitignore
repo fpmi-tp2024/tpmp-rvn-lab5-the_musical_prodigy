@@ -6,3 +6,4 @@ tests/SQLiteCpp/*
 test.db
 runTests
 Makefile
+SQLiteCpp/*
