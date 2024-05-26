@@ -44,9 +44,9 @@ jobs:
 
     - name: Run tests
       run: |
+      	cd tests
         ./runTests
 
     - name: Remove test database
       run: |
-        cd ..
         ./remove_test_DB
