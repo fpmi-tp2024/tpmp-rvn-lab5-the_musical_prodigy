@@ -4,8 +4,8 @@ This repository contains detailed information about the Musical Salon project, w
 
 Below are links to various sections of the documentation:
 
-[Glossary](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/wiki/Glossary)  
-[Functional Requirements](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/wiki/Functional-Requirements)  
-[Project Specification](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/wiki/Project-Specification)   
-[Database Schema](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/wiki/Database-Schema)  
-[Project Presentation](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/wiki/Project-Presentation)  
+[Glossary](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/blob/main/docs/Glossary.md)  
+[Functional Requirements](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/blob/main/docs/Functional-Requirements.md)  
+[Project Specification](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/blob/main/docs/Project-Specification.md)  
+[Database Schema](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/blob/main/docs/Database-Schema.md)  
+[Project Presentation](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/blob/main/docs/Project-Presentation.md)  
