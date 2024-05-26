@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, tests_v2 ]
+  pull_request:
+    branches: [ main, tests, tests_cov ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v4
+
+    - name: Set up CMake
+      run: |
+        sudo apt-get install cmake
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get install build-essential libssl-dev libgtest-dev
+        
+    - name: Set up SQLiteCpp
+      run: |
+        git clone https://github.com/SRombauts/SQLiteCpp.git
+        cp -r SQLiteCpp/ tests/
+
+    - name: Create test database
+      run: |
+        ./create_test_DB
+
+    - name: Build the project
+      run: |
+        cmake CMakeLists.txt
+        make
+
+    - name: Build tests
+      run: |
+        cd tests
+        cmake CMakeLists.txt
+        make
+
+    - name: Run tests
+      run: |
+        ./runTests
+
+    - name: Remove test database
+      run: |
+        cd ..
+        ./remove_test_DB
