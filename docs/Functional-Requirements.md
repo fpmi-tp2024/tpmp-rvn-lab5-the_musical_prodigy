@@ -1,3 +1,8 @@
+---
+title: Functional Requirements
+filename: Functional-Requirements.md
+---
+
 # Functional Requirements
 **This section describes the functional requirements of the Musical Salon project, including use case diagrams and textual scenarios.**
 
