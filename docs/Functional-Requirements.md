@@ -22,12 +22,12 @@ filename: Functional-Requirements.md
 - Preconditions: The administrator is logged into the system. 
 - Postconditions: The quantity and cost of CDs sold is displayed.
 3. Query the most popular CD information  
-- Actor: Store Administrator or a cutomer
+- Actor: Store Administrator or a customer
 - Description: The store administrator or a customer queries the most popular CD information. 
 - Preconditions: The administrator/customer is logged into the system. 
 - Postconditions: The most popular CD data is displayed.
 4. Query the most popular performer  
-- Actor: Store Administrator or a cutomer
+- Actor: Store Administrator or a customer
 - Description: The store administrator or a customer queries the most popular performer's CDs information. 
 - Preconditions: The administrator/customer is logged into the system. 
 - Postconditions: The most popular performer's CDs information is displayed.
@@ -38,11 +38,11 @@ filename: Functional-Requirements.md
 - Postconditions: All performers' revenue and CD sales information is displayed.
 6. Add CD 
 - Actor: Store Administrator
-- Description: The store administratoradds a new CD to the inventory. 
+- Description: The store administrator adds a new CD to the inventory. 
 - Preconditions: The administrator is logged into the system and has the necessary CD details. 
 - Postconditions: The new CD is added to the inventory.  
 7. Get CD sales report
-- Actor: Store Administrator or a cutomer
+- Actor: Store Administrator or a customer
 - Description: The store administrator or a customer queries the sales report by the CD's code number and time period. 
 - Preconditions: The administrator/customer is logged into the system. 
 - Postconditions: The CD's sales report is displayed.
