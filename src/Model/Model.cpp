@@ -426,7 +426,7 @@ bool Model::addOrBuyCD(const std::vector<Operation>& operations)
         operationCode = operations[i].getOperationCode();
         CDCode = operations[i].getCDCode();
         numberOfCDs = operations[i].getNumberOfCDs();
-        if (operationCode == OperationCode::SELL && !canBuyCD(CDCode, numberOfCDs))
+        if (!canBuyCD(CDCode) || (operationCode == OperationCode::SELL && !canBuyCD(CDCode, numberOfCDs)))
         {
             return false;
         }

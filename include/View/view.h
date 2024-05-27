@@ -45,7 +45,6 @@ public:
 	void printCD(const CD& cd);
 	bool isCorrectCDCode(const std::string& str);
 	bool isCorrectCDcodeAndAmount(const std::string& input);
-	//bool isCorrectCDsAmount(const std::string& amount);
 	bool isValidDate(const std::string& dateStr);
 	int compareDates(const std::string& date1, const std::string& date2);
 	std::string getCurrentDate();

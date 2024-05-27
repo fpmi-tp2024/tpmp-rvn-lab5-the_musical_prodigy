@@ -3,7 +3,6 @@
 #include "../../include/View/view.h"
 #include "../../include/View/command.h"
 #include <openssl/evp.h>
-//#include <openssl/sha.h>
 
 const std::string View::quitCommand = "quit";
 
@@ -105,17 +104,6 @@ std::string View::hashPassword(const std::string& password) const
         EVP_MD_CTX_free(context);
     }
     return hashed;
-
-	/*unsigned char hash[SHA256_DIGEST_LENGTH];
-	SHA256_CTX sha256;
-	SHA256_Init(&sha256);
-	SHA256_Update(&sha256, password.c_str(), password.size());
-	SHA256_Final(hash, &sha256);
-	std::stringstream ss;
-	for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-		ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
-	}
-	return ss.str();*/
 }
 
 void View::addController(Controller* controller)
@@ -269,23 +257,6 @@ bool View::isCorrectCDcodeAndAmount(const std::string& input)
 
 	return true;
 }
-
-/*bool View::isCorrectCDsAmount(const std::string& amount)
-{
-	if (amount.empty()) {
-		return false;
-	}
-	for (char ch : amount) {
-		if (!std::isdigit(ch)) {
-			return false;
-		}
-	}
-
-	int number;
-	std::istringstream iss(amount);
-	iss >> number;
-	return (number > 0);
-}*/
 
 bool View::isValidDate(const std::string& dateStr) {
 	std::regex pattern("^\\d{4}-\\d{2}-\\d{2}$");

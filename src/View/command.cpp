@@ -1,7 +1,5 @@
 //MariaGorelik
 
-//ToDo: hash passwords
-
 #include "../../include/View/command.h"
 
 //Command
