@@ -82,8 +82,8 @@ After installing the application, you can use it to manage and query information
 
 The project was developed by the following contributors:
 - **Maria Gorelik**: Project Manager and team leader, database design, View-Controller implementation, UML-Diagrams. 
-- **Timofey Kremko**: Database implementation, Model implementation (queries and functions), README file, GitHub Wiki, writing scripts for tests coverage.
-- **Stanislav Napreenko**: QA and testing, continious integration with GitHub Actions, DevOps.
+- **Timofey Kremko**: Database implementation, Model implementation (queries and functions), README file, GitHub Wiki, GitHub Pages, writing scripts for tests coverage.
+- **Stanislav Napreenko**: QA and testing, continuous integration with GitHub Actions, DevOps.
 
 Tasks completed include:
 
@@ -93,7 +93,7 @@ Tasks completed include:
     - Sales data for specific CDs and periods.
     - Information about the most sold CD and popular artists.
     - Author sales data.
-3. Implementation of `INSERT`, `UPDATE`, and `DELETE` operations for updating database information.
+3. Implementation of different query operations for updating database information.
 4. Creation of functions to:
     - Prevent the sale of CDs if the total sold exceeds the total received.
     - Determine the number of CDs received and sold within a given period.

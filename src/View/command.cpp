@@ -1,7 +1,5 @@
 //MariaGorelik
 
-//ToDo: hash passwords
-
 #include "../../include/View/command.h"
 
 //Command
@@ -505,7 +503,7 @@ void BuyCDCommand::printOrders()
 
 void BuyCDCommand::execute()
 {
-	std::cout << "Choode CDs to buy:\n";
+	std::cout << "Choose CDs to buy:\n";
 	std::cout << "For each CD enter CD code and number of CDs in format 'cd_code number'\n";
 	std::cout << "To complete operation, enter '" << this->endBuyCommand << "'\n";
 

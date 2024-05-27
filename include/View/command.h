@@ -1,7 +1,5 @@
 //MariaGorelik
 
-//ToDo: add printMenu
-
 #pragma once
 
 #include "view.h"

@@ -235,6 +235,18 @@ TEST(addOrBuyCD, GetCDSuccess) {
         delete model;
 }
 
+TEST(addOrBuyCD, GetCDFail) {
+    Model* model = new Model();
+    model->addDatabase("test.db");
+    Operation op(OperationCode::RECEIVE, 1, "2024-05-27", 10);
+    Operation op2(OperationCode::RECEIVE, 4, "2024-05-27", 15);
+    std::vector<Operation> vect;
+    vect.push_back(op);
+    vect.push_back(op2);
+    ASSERT_FALSE(model->addOrBuyCD(vect));
+    delete model;
+}
+
 int main(int argc, char ** argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
