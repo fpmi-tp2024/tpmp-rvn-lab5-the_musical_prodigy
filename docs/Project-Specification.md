@@ -15,6 +15,7 @@ filename: Project-Specification.md
 ![activity drawio](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/assets/144488732/196ef59c-b8c8-49cb-b04c-1646e78363b0)
 
 ### Sequence diagram  
+![Sequence](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/assets/144488732/c5002146-a2ae-4197-975e-4557fe2b22da) 
 
 ### Components diagram  
 ![Components](https://github.com/fpmi-tp2024/tpmp-rvn-lab5-the_musical_prodigy/assets/144488732/b7860d2e-050c-490f-bc5f-a74ee1a007f4)
